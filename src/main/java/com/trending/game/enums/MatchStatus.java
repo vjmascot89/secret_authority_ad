@@ -1,4 +1,4 @@
-package com.trending.game.model;
+package com.trending.game.enums;
 
 public enum MatchStatus {
 RUNNING,
