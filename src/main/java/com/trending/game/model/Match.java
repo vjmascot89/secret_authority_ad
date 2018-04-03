@@ -10,13 +10,14 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 @Entity
 @Table(name="Match")
 public class Match {
 
 	Date date;
 	List<Team> teams = new ArrayList<Team>();
-	Match matchStatus;
+	MatchStatus matchStatus;
 	public Date getDate() {
 		return date;
 	}
@@ -31,10 +32,10 @@ public class Match {
 		this.teams = teams;
 	}
 	@Enumerated(EnumType.STRING)
-	public Match getMatchStatus() {
+	public MatchStatus getMatchStatus() {
 		return matchStatus;
 	}
-	public void setMatchStatus(Match matchStatus) {
+	public void setMatchStatus(MatchStatus matchStatus) {
 		this.matchStatus = matchStatus;
 	}
 }
