@@ -1,18 +1,18 @@
 package com.trending.game.model;
 
-public enum TeamsStatus {
+public enum GameResult {
 	DRAW(0),
 Won(1),
 Lost(2),
 NOT_AVAILABLE(3);
 	private Integer state;
 
-	TeamsStatus(Integer state){
+	GameResult(Integer state){
 		this.state = state;
 		
 	}
-	public static TeamsStatus valueOf(Integer state){
-		for(TeamsStatus tstats:values()){
+	public static GameResult valueOf(Integer state){
+		for(GameResult tstats:values()){
 			if(tstats.state==state){
 				return tstats;
 			}

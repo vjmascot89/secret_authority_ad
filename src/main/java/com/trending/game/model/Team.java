@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="Team")
 public class Team {
 private String teamName;
-private TeamsStatus status;
+private GameResult status;
 private Match match;
 private Integer id;
 @Id
@@ -31,10 +31,10 @@ public void setTeamName(String teamName) {
 	this.teamName = teamName;
 }
 @Enumerated(EnumType.STRING)
-public TeamsStatus getStatus() {
+public GameResult getStatus() {
 	return status;
 }
-public void setStatus(TeamsStatus status) {
+public void setStatus(GameResult status) {
 	this.status = status;
 }
 @OneToMany(mappedBy="teams")
