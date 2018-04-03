@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.trending.game.enums.MatchStatus;
@@ -23,7 +24,7 @@ public class Match {
 	List<Team> teams = new ArrayList<Team>();
 	MatchStatus matchStatus;
 	Integer id;
-
+Satteri satteri;
 	@Id
 	@GeneratedValue
 	public Integer getId() {
@@ -58,5 +59,13 @@ public class Match {
 
 	public void setMatchStatus(MatchStatus matchStatus) {
 		this.matchStatus = matchStatus;
+	}
+@OneToOne
+	public Satteri getSatteri() {
+		return satteri;
+	}
+
+	public void setSatteri(Satteri satteri) {
+		this.satteri = satteri;
 	}
 }
