@@ -1,4 +1,4 @@
-package com.trending.game.model;
+package com.trending.game.enums;
 
 public enum TeamsName {
 	CSK(1, "Chennai Super Kings"), DD(2, "Delhi DareDevils"), KKR(3, "Kolkata knight Riders"), KXIP(4,

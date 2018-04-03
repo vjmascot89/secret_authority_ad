@@ -9,4 +9,5 @@ public class SattaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SattaApplication.class, args);
 	}
+
 }

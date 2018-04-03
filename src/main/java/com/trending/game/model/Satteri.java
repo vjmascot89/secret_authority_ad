@@ -1,4 +1,4 @@
-package com.trending.game.enums;
+package com.trending.game.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,9 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.trending.game.model.Match;
-import com.trending.game.model.SattaPlayer;
 
 @Entity
 @Table(name = "Satteri")
