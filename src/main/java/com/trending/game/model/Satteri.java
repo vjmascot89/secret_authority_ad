@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Satteri")
@@ -23,6 +24,17 @@ public class Satteri {
 	String name;
 	Match currentMatch;
 	List<SattaPlayer> sattaPlayer = new ArrayList<SattaPlayer>();
+
+	public Satteri() {
+
+	}
+
+	public Satteri(Satteri satteri) {
+		this.setId(satteri.getId());
+		this.setBalancePool(satteri.getBalancePool());
+		this.setTotalBalanceOnTeamOneWin(satteri.getTotalBalanceOnTeamOneWin());
+		this.setTotalBalanceOnTeamTwoWin(satteri.getTotalBalanceOnTeamTwoWin());
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -65,7 +77,8 @@ public class Satteri {
 	public void setName(String name) {
 		this.name = name;
 	}
-	@OneToOne(mappedBy="satteri")
+
+	@OneToOne(mappedBy = "satteri", cascade = CascadeType.ALL)
 	public Match getCurrentMatch() {
 		return currentMatch;
 	}
@@ -73,7 +86,8 @@ public class Satteri {
 	public void setCurrentMatch(Match currentMatch) {
 		this.currentMatch = currentMatch;
 	}
-    @OneToMany(mappedBy="satteri", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "satteri", cascade = CascadeType.MERGE)
 	public List<SattaPlayer> getSattaPlayer() {
 		return sattaPlayer;
 	}

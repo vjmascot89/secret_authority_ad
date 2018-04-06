@@ -14,7 +14,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trending.game.enums.MatchStatus;
+
 
 @Entity
 @Table(name = "Match")
@@ -24,7 +28,16 @@ public class Match {
 	List<Team> teams = new ArrayList<Team>();
 	MatchStatus matchStatus;
 	Integer id;
-Satteri satteri;
+	Satteri satteri;
+	public Match(){
+		
+	}
+	public Match(Match currentMatch) {
+		this.setDate(currentMatch.getDate());
+		this.setMatchStatus(currentMatch.getMatchStatus());
+		this.setId(currentMatch.getId());
+	}
+
 	@Id
 	@GeneratedValue
 	public Integer getId() {
@@ -42,9 +55,8 @@ Satteri satteri;
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
-	@OneToMany(mappedBy="match",cascade = CascadeType.ALL)
-	public List<Team> getTeams() {
+	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
+	public @ResponseBody List<Team> getTeams() {
 		return teams;
 	}
 
@@ -60,7 +72,8 @@ Satteri satteri;
 	public void setMatchStatus(MatchStatus matchStatus) {
 		this.matchStatus = matchStatus;
 	}
-@OneToOne
+	@JsonIgnore
+	@OneToOne
 	public Satteri getSatteri() {
 		return satteri;
 	}

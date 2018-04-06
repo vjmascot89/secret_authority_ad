@@ -11,15 +11,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.trending.game.enums.GameResult;
+import com.trending.game.enums.TeamsName;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "Team")
 public class Team {
-	private String teamName;
+	private TeamsName teamName;
 	private GameResult status;
-	private Match match;
 	private Integer id;
 	private String ratio;
+	private Match match;
+	public Team() {
+		
+	}
+	public Team(Team team) {
+		this.setTeamName(team.getTeamName());
+		this.setStatus(team.getStatus());
+		this.setId(team.getId());
+		this.setRatio(team.getRatio());
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,11 +42,12 @@ public class Team {
 		this.id = id;
 	}
 
-	public String getTeamName() {
+	@Enumerated(EnumType.STRING)
+	public TeamsName getTeamName() {
 		return teamName;
 	}
 
-	public void setTeamName(String teamName) {
+	public void setTeamName(TeamsName teamName) {
 		this.teamName = teamName;
 	}
 
@@ -47,7 +59,7 @@ public class Team {
 	public void setStatus(GameResult status) {
 		this.status = status;
 	}
-
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	public Match getMatch() {
 		return match;
