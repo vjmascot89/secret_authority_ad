@@ -1,0 +1,83 @@
+<div class="section no-pad-bot" id="index-banner">
+  <div class="container">
+    <br><br>
+    <h1 class="header center orange-text">Starter Template</h1>
+    <div class="row center">
+      <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+    </div>
+    <div class="row center">
+      <button data-target="match-add-form" id="match-add" class="btn-large modal-trigger waves-effect waves-light orange">Add Match</button>
+    </div>
+    <br><br>
+  </div>
+</div>
+
+<!-- Match Add Form -->
+<div id="match-add-form" class="modal">
+  <div class="modal-content row center">
+    <h4>Match Add</h4>
+    <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Agree</a>
+    <p>Enter details for the match</p> -->
+    <form method="post" name="start-match" onsubmit="match_add()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input name="name" id="name" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="balancePool">Balance:</label>
+        <input name="balancePool" id="balancePool" type="number" required min="0">
+      </div>
+
+      <div class="form-group">
+        <label for="date">Match Date:</label>
+        <input name="date" id="date" type="text" class="datepicker" required>
+      </div>
+      <div class="form-group">
+        <div class="form-group input-field col s12 m6">
+          <select name="team1" class="icons" required>
+            <option value="" disabled selected>Choose Team 1</option>
+            <option value="CSK" data-icon="images/CSK.png">Chennai Super Kings</option>
+            <option value="DD" data-icon="images/DD.jpeg">Delhi Daredevils</option>
+            <option value="KKR" data-icon="images/KKR.png">Kolkata Knight Riders</option>
+            <option value="KXIP" data-icon="images/KXIP.png">Kings XI Punjab</option>
+            <option value="MI" data-icon="images/MI.jpg">Mumbai Indians</option>
+            <option value="RCB" data-icon="images/RCB.png">Royal Challengers Bangalore</option>
+            <option value="RR" data-icon="images/RR.png">Rajasthan Royals</option>
+            <option value="SRH" data-icon="images/SRH.jpeg">Sunrisers Hyderabad</option>
+          </select>
+          <label>Team 1</label>
+        </div>
+        <div class="form-group input-field col s12 m6">
+          <select name="team2" class="icons" required>
+            <option value="" disabled selected>Choose Team 2</option>
+            <option value="CSK" data-icon="images/CSK.png">Chennai Super Kings</option>
+            <option value="DD" data-icon="images/DD.jpeg">Delhi Daredevils</option>
+            <option value="KKR" data-icon="images/KKR.png">Kolkata Knight Riders</option>
+            <option value="KXIP" data-icon="images/KXIP.png">Kings XI Punjab</option>
+            <option value="MI" data-icon="images/MI.jpg">Mumbai Indians</option>
+            <option value="RCB" data-icon="images/RCB.png">Royal Challengers Bangalore</option>
+            <option value="RR" data-icon="images/RR.png">Rajasthan Royals</option>
+            <option value="SRH" data-icon="images/SRH.jpeg">Sunrisers Hyderabad</option>
+          </select>
+          <label>Team 2</label>
+        </div>
+        <div class="col s6 m6 center" class="form-group">
+          <div class="col m6">
+            <label for="ratio1">Team 1 Ratio</label>
+            <input name="ratio1" type="text" class="form-control" id="ratio1" placeholder="eg. 2K10" required>
+          </div>
+        </div>
+        <div class="center col s6 m6" class="form-group">
+          <div class="col m6">
+            <label for="ratio2">Team 2 Ratio</label>
+            <input name="ratio2" type="text" class="form-control" id="ratio2" placeholder="eg. 10L2" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" class="waves-effect waves-green btn">
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
