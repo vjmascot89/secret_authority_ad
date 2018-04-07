@@ -33,6 +33,9 @@ public class SattaMatchTeamsController {
 	@RequestMapping(method = RequestMethod.POST, value = "/startmatch")
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
+		for (Team t : satteri.getCurrentMatch().getTeams()) {
+			t.setStatus(GameResult.NOT_AVAILABLE);
+		}
 		satteri.setTotalBalanceOnTeamOneWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamTwoWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamOneLoss(BigDecimal.ZERO);
@@ -47,10 +50,6 @@ public class SattaMatchTeamsController {
 		match.setMatchStatus(MatchStatus.RUNNING);
 		matchAndSatteri.addMatch(match);
 		Match matchLocal = new Match(match);
-		for (Team t : matchAndSatteri.getTeamByMatchId(matchLocal.getId())) {
-			t.setMatch(matchLocal);
-			t.setStatus(GameResult.NOT_AVAILABLE);
-		}
 		matchAndSatteri.addTeams(satteri.getCurrentMatch().getTeams());
 		satteri.getCurrentMatch().setTeams(matchAndSatteri.getTeamByMatchId(matchLocal.getId()));
 		List<Satteri> arrayList = new ArrayList<Satteri>();
