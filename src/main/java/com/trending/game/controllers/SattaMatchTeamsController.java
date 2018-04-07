@@ -47,7 +47,7 @@ public class SattaMatchTeamsController {
 		match.setMatchStatus(MatchStatus.RUNNING);
 		matchAndSatteri.addMatch(match);
 		Match matchLocal = new Match(match);
-		for (Team t : satteri.getCurrentMatch().getTeams()) {
+		for (Team t : matchAndSatteri.getTeamByMatchId(matchLocal.getId())) {
 			t.setMatch(matchLocal);
 			t.setStatus(GameResult.NOT_AVAILABLE);
 		}
