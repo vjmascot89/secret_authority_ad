@@ -2,10 +2,7 @@ package com.trending.game.dao;
 
 import org.hibernate.event.spi.PostCommitInsertEventListener;
 import org.hibernate.event.spi.PostInsertEvent;
-import org.hibernate.event.spi.PostInsertEventListener;
 import org.hibernate.persister.entity.EntityPersister;
-
-import com.trending.game.model.SattaPlayer;
 
 public class ListenerComponent implements PostCommitInsertEventListener {
 

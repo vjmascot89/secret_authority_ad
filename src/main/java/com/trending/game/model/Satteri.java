@@ -16,13 +16,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Satteri")
 public class Satteri {
-	Integer id;
-	BigDecimal balancePool;
-	BigDecimal totalBalanceOnTeamOneWin;
-	BigDecimal totalBalanceOnTeamTwoWin;
-	String name;
-	Match currentMatch;
-	List<SattaPlayer> sattaPlayer = new ArrayList<SattaPlayer>();
+	private Integer id;
+	private BigDecimal balancePool;
+	private BigDecimal totalBalanceOnTeamOneWin;
+	private BigDecimal totalBalanceOnTeamOneLoss;
+	private BigDecimal totalBalanceOnTeamTwoWin;
+	private BigDecimal totalBalanceOnTeamTwoLoss;
+	private String name;
+	private Match currentMatch;
+	private List<SattaPlayer> sattaPlayer = new ArrayList<SattaPlayer>();
 
 	public Satteri() {
 
@@ -94,6 +96,22 @@ public class Satteri {
 
 	public void setSattaPlayer(List<SattaPlayer> sattaPlayer) {
 		this.sattaPlayer = sattaPlayer;
+	}
+
+	public BigDecimal getTotalBalanceOnTeamOneLoss() {
+		return totalBalanceOnTeamOneLoss;
+	}
+
+	public void setTotalBalanceOnTeamOneLoss(BigDecimal totalBalanceOnTeamOneLoss) {
+		this.totalBalanceOnTeamOneLoss = totalBalanceOnTeamOneLoss;
+	}
+
+	public BigDecimal getTotalBalanceOnTeamTwoLoss() {
+		return totalBalanceOnTeamTwoLoss;
+	}
+
+	public void setTotalBalanceOnTeamTwoLoss(BigDecimal totalBalanceOnTeamTwoLoss) {
+		this.totalBalanceOnTeamTwoLoss = totalBalanceOnTeamTwoLoss;
 	}
 
 }

@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trending.game.enums.MatchStatus;
 
-
 @Entity
 @Table(name = "Match")
 public class Match {
@@ -29,9 +28,11 @@ public class Match {
 	MatchStatus matchStatus;
 	Integer id;
 	Satteri satteri;
-	public Match(){
-		
+
+	public Match() {
+
 	}
+
 	public Match(Match currentMatch) {
 		this.setDate(currentMatch.getDate());
 		this.setMatchStatus(currentMatch.getMatchStatus());
@@ -40,7 +41,7 @@ public class Match {
 
 	@Id
 	@GeneratedValue
-	@Column(name="matchId")
+	@Column(name = "matchId")
 	public Integer getId() {
 		return this.id;
 	}
@@ -56,7 +57,8 @@ public class Match {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+
+	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Team> getTeams() {
 		return teams;
 	}
@@ -73,6 +75,7 @@ public class Match {
 	public void setMatchStatus(MatchStatus matchStatus) {
 		this.matchStatus = matchStatus;
 	}
+
 	@JsonIgnore
 	@OneToOne
 	public Satteri getSatteri() {

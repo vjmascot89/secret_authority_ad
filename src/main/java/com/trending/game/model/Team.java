@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trending.game.enums.GameResult;
 import com.trending.game.enums.TeamsName;
+
 @Entity
 @Table(name = "Team")
 public class Team {
@@ -22,9 +23,11 @@ public class Team {
 	private Integer id;
 	private String ratio;
 	private Match match;
+
 	public Team() {
-		
+
 	}
+
 	public Team(Team team) {
 		this.setTeamName(team.getTeamName());
 		this.setStatus(team.getStatus());
@@ -59,9 +62,10 @@ public class Team {
 	public void setStatus(GameResult status) {
 		this.status = status;
 	}
+
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name="matchId")
+	@JoinColumn(name = "matchId")
 	public Match getMatch() {
 		return match;
 	}
