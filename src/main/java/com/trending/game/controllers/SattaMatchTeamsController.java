@@ -3,6 +3,7 @@ package com.trending.game.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import com.trending.game.model.Satteri;
 import com.trending.game.model.Team;
 import com.trending.game.services.MatchAndSatteriServices;
 
-@RestController
+@Controller
 public class SattaMatchTeamsController {
 	@Autowired
 	MatchAndSatteriServices matchAndSatteri;
@@ -93,5 +94,10 @@ public class SattaMatchTeamsController {
 	public List<SattaPlayer> getSattaPlayers() {
 		System.out.println("get satta players" );
 		return matchAndSatteri.getSattaPlayers();
+	}
+	
+	@RequestMapping("/")
+	public String index() {
+		return "index";
 	}
 }
