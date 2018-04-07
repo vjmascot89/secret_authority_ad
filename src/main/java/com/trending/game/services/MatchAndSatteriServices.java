@@ -54,6 +54,11 @@ public class MatchAndSatteriServices {
 		return teamRepositories.findById(teamId).get();
 		
 	}
+	
+	public List<Team> getTeamByMatchId(Integer teamId) {
+		return teamRepositories.findByMatchId(teamId);
+		
+	}
 	public List<Team> getTeams() {
 		return (List<Team>) teamRepositories.findAll();
 		

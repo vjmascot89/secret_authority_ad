@@ -22,7 +22,9 @@ public class SattaPlayer {
 	private String currentPotRatioOnTeamOne;
 	private String currentPotRatioOnTeamTwo;
 	private BigDecimal teamOneWinAmount;
+	private BigDecimal teamOneLossAmount;
 	private BigDecimal teamTwoWinAmount;
+	private BigDecimal teamTwoLossAmount;
 	private Satteri satteri;
 
 	@Id
@@ -98,6 +100,22 @@ public class SattaPlayer {
 
 	public void setSatteri(Satteri satteri) {
 		this.satteri = satteri;
+	}
+
+	public BigDecimal getTeamOneLossAmount() {
+		return teamOneLossAmount;
+	}
+
+	public void setTeamOneLossAmount(BigDecimal teamOneLossAmount) {
+		this.teamOneLossAmount = teamOneLossAmount;
+	}
+
+	public BigDecimal getTeamTwoLossAmount() {
+		return teamTwoLossAmount;
+	}
+
+	public void setTeamTwoLossAmount(BigDecimal teamTwoLossAmount) {
+		this.teamTwoLossAmount = teamTwoLossAmount;
 	}
 
 }
