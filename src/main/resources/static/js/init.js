@@ -3,7 +3,10 @@
 
     $('.sidenav').sidenav();
     $('.modal').modal();
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({
+      autoClose : true,
+      format : "yyyy-mm-dd"
+    });
     $('select').formSelect();
     debugger;
     var html_match_name = "";

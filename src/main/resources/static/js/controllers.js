@@ -96,8 +96,9 @@ function is_player_valid(){
 
 function render_match(matches){
   debugger;
-  var matches = [];
-  for (data in matches){
+  var render_matches = [];
+  for (match_index in matches){
+    var data = matches[match_index];
     var match = {};
     match["match_id"] = data.id;
     match["balancePool"] = data.balancePool;
@@ -110,11 +111,11 @@ function render_match(matches){
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
-    matches.push(match);
+    render_matches.push(match);
   }
 
-  $.tmpl( "match_name", matches ).appendTo( "#match_name" );
-  $.tmpl( "match_content", matches ).appendTo( "#match_content" );
+  $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
+  $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
 }
 
 function render_player(data){
