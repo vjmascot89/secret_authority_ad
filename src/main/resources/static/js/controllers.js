@@ -23,9 +23,6 @@
   //   }
   // });
 
-
-});
-
 function register_template(name, markup){
   $.template( name, markup );
 }
