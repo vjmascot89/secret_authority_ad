@@ -119,10 +119,16 @@ public class SattaMatchTeamsController {
 	}
 
 	@RequestMapping("/passivematch")
-	public List<Satteri> getPassiveMatches() {
-		System.out.println("Add Passive Matches");
-		return matchAndSatteri.getPassiveMatch();
+	public List<Match> getAllPassiveMatches() {
+		System.out.println("Add all Passive Matches");
+		return matchAndSatteri.getAllPassiveMatch();
 	}	
+	
+	@RequestMapping("/passivematch/{matchId}")
+	public Satteri getPassiveMatches(@PathVariable Integer matchId) {
+		System.out.println("Add Passive satteri for "+ matchId);
+		return matchAndSatteri.getPassiveMatch(matchId);
+	}
 	@RequestMapping("/match/{matchId}")
 	public Match getMatch(@PathVariable Integer matchId) {
 		System.out.println("get Match");

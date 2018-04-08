@@ -76,12 +76,13 @@ public class MatchAndSatteriServices {
 		return satteries;
 	}
 
-	public List<Satteri> getPassiveMatch() {
-		List<Match> findByMatchStatus = matchRepositories.findByMatchStatus(MatchStatus.STOPPED);
-		List<Satteri> satteries = new ArrayList<Satteri>();
-		for(Match match:findByMatchStatus){
-			satteries.add(match.getSatteri());
-		}
-		return satteries;
+	public List<Match> getAllPassiveMatch() {
+		return matchRepositories.findByMatchStatus(MatchStatus.STOPPED);
+		
+	}
+	public Satteri getPassiveMatch(Integer matchId) {
+	Match findByMatchId = matchRepositories.findById(matchId).get();
+	
+	return findByMatchId.getSatteri();
 	}
 }
