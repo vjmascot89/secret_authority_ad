@@ -41,7 +41,7 @@
         <h4>Match Add</h4>
         <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Agree</a>
         <p>Enter details for the match</p> -->
-        <form method="post" id="start-match" name="start-match" onsubmit="match_add()">
+        <form method="post" id="start-match" name="start-match">
           <div class="form-group">
             <label for="name">Name:</label>
             <input name="name" id="name" type="text" required>
@@ -98,7 +98,7 @@
               </div>
             </div>
             <div class="form-group">
-              <input type="submit" class="waves-effect waves-green btn">
+              <input type="submit" onclick="match_add()" class="waves-effect waves-green btn">
             </div>
           </div>
         </form>
