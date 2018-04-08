@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trending.game.dao.ProfitLossKCalculation;
 import com.trending.game.enums.GameResult;
 import com.trending.game.enums.MatchStatus;
 import com.trending.game.enums.TeamsName;
+import com.trending.game.logic.AlgoToCalculateProfitLoss;
+import com.trending.game.logic.ProfitLossKCalculation;
 import com.trending.game.model.Match;
 import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
-import com.trending.game.model.Team;
-import com.trending.game.services.AlgoToCalculateProfitLoss;
 import com.trending.game.services.MatchAndSatteriServices;
 
 @RestController
@@ -35,9 +34,8 @@ public class SattaMatchTeamsController {
 	@RequestMapping(method = RequestMethod.POST, value = "/startmatch")
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
-		for (Team t : satteri.getCurrentMatch().getTeams()) {
-			t.setStatus(GameResult.NOT_AVAILABLE);
-		}
+		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
+		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
 		satteri.setTotalBalanceOnTeamOneWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamTwoWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamOneLoss(BigDecimal.ZERO);
@@ -51,10 +49,8 @@ public class SattaMatchTeamsController {
 		match.setSatteri(satteriLocal);
 		match.setMatchStatus(MatchStatus.RUNNING);
 		matchAndSatteri.addMatch(match);
-		Match matchLocal = new Match(match);
-		matchAndSatteri.addTeams(satteri.getCurrentMatch().getTeams());
-		satteri.getCurrentMatch().setTeams(matchAndSatteri.getTeamByMatchId(matchLocal.getId()));
 		List<Satteri> arrayList = new ArrayList<Satteri>();
+		satteri.setCurrentMatch(match);
 		arrayList.add(satteri);
 		return new ResponseEntity<List<Satteri>>(arrayList, HttpStatus.ACCEPTED);
 
@@ -71,7 +67,6 @@ public class SattaMatchTeamsController {
 				sattaPlayer.getCurrentPotTeamTwo() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamTwo());
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
 		synchronized (satteriId.toString()) {
-			satteri.getCurrentMatch().setTeams(matchAndSatteri.getTeamByMatchId(satteri.getCurrentMatch().getId()));
 			ProfitLossKCalculation profitLossKCalculation = new ProfitLossKCalculation(algoToCalculationProfitLoss);
 			BigDecimal teamOneWinAmount = profitLossKCalculation
 					.adjustBalanceOnWin(sattaPlayer.getCurrentPotRatioOnTeamOne(), sattaPlayer.getCurrentPotTeamOne());
@@ -117,6 +112,10 @@ public class SattaMatchTeamsController {
 		return matchAndSatteri.getActiveMatch();
 	}
 
+	@RequestMapping("/passivematch")
+	public List<Satteri> getPassiveMatches() {
+		return matchAndSatteri.getPassiveMatch();
+	}	
 	@RequestMapping("/match/{matchId}")
 	public Match getMatch(@PathVariable Integer matchId) {
 
@@ -128,18 +127,6 @@ public class SattaMatchTeamsController {
 	public List<Match> getMatches() {
 		System.out.println("get matches");
 		return matchAndSatteri.getMatches();
-	}
-
-	@RequestMapping("/team")
-	public List<Team> getTeams() {
-		System.out.println("get teams");
-		return matchAndSatteri.getTeams();
-	}
-
-	@RequestMapping("/team/{matchId}")
-	public List<Team> getTeam(@PathVariable Integer matchId) {
-		System.out.println("get teams");
-		return matchAndSatteri.getTeamByMatchId(matchId);
 	}
 
 	@RequestMapping("/sattaplayer/{teamId}")
@@ -157,19 +144,22 @@ public class SattaMatchTeamsController {
 	@RequestMapping("/stopmatch/{teamName}/winner/{satteriId}")
 	public ResponseEntity<Satteri> stopMatch(@PathVariable Integer satteriId, @PathVariable String teamName) {
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
-		List<Team> teams = matchAndSatteri.getTeamByMatchId(satteri.getCurrentMatch().getId());
 		if (satteri.getCurrentMatch().getMatchStatus() == MatchStatus.RUNNING) {
 			synchronized (satteriId.toString()) {
 				ProfitLossKCalculation profitLossKCalculation = new ProfitLossKCalculation(algoToCalculationProfitLoss);
 
 				satteri.getCurrentMatch().setMatchStatus(MatchStatus.STOPPED);
 				int index = 0;
-				for (Team t : teams) {
-					t.setStatus(GameResult.Lost);
-					if (t.getTeamName().equals(TeamsName.valueOf(teamName))) {
-						t.setStatus(GameResult.Won);
-						index = t.getOrder();
-					}
+
+				if (satteri.getCurrentMatch().getFirstTeam().getTeamName().equals(TeamsName.valueOf(teamName.toUpperCase()))) {
+					index = 1;
+					satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.Won);
+					satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.Lost);
+				} else if (satteri.getCurrentMatch().getSecondTeam().getTeamName()
+						.equals(TeamsName.valueOf(teamName))) {
+					index = 2;
+					satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.Lost);
+					satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.Won);
 				}
 				if (index == 0) {
 					new ResponseEntity<Satteri>(HttpStatus.EXPECTATION_FAILED);
@@ -196,7 +186,6 @@ public class SattaMatchTeamsController {
 				satteri.setFinalAmount(profitLossKCalculation.calculateTotalAmountWonOrLost(satteri.getBalancePool(),
 						satteri.getTotalBalanceOnTeamOneLoss(), satteri.getTotalBalanceOnTeamTwoWin(),
 						satteri.getTotalBalanceOnTeamTwoLoss(), satteri.getTotalBalanceOnTeamOneWin()));
-				satteri.getCurrentMatch().setTeams(teams);
 				matchAndSatteri.addSatteri(satteri);
 			}
 			return new ResponseEntity<Satteri>(satteri, HttpStatus.EXPECTATION_FAILED);
@@ -223,8 +212,8 @@ public class SattaMatchTeamsController {
 			matchAndSatteri.deleteSattaPlayer(sattaPlayer.getId());
 			matchAndSatteri.addSatteri(satteri);
 		}
-		List<Team> teams = matchAndSatteri.getTeamByMatchId(satteri.getCurrentMatch().getId());
-		satteri.getCurrentMatch().setTeams(teams);
+		// List<Team> teams =
+		// matchAndSatteri.getTeamByMatchId(satteri.getCurrentMatch().getId());
 		return new ResponseEntity<Satteri>(satteri, HttpStatus.ACCEPTED);
 	}
 

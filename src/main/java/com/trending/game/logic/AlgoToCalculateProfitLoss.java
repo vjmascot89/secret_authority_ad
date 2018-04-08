@@ -1,4 +1,4 @@
-package com.trending.game.services;
+package com.trending.game.logic;
 
 import java.math.BigDecimal;
 
