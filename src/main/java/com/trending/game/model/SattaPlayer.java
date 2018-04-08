@@ -17,14 +17,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class SattaPlayer {
 	private Integer id;
 	private String sattaPlayerName;
-	private BigDecimal currentPotTeamOne;
-	private BigDecimal currentPotTeamTwo;
+	private BigDecimal currentPotTeamOne=BigDecimal.ZERO;
+	private BigDecimal currentPotTeamTwo=BigDecimal.ZERO;
 	private String currentPotRatioOnTeamOne;
 	private String currentPotRatioOnTeamTwo;
-	private BigDecimal teamOneWinAmount;
-	private BigDecimal teamOneLossAmount;
-	private BigDecimal teamTwoWinAmount;
-	private BigDecimal teamTwoLossAmount;
+	private BigDecimal teamOneWinAmount=BigDecimal.ZERO;
+	private BigDecimal teamOneLossAmount=BigDecimal.ZERO;
+	private BigDecimal teamTwoWinAmount=BigDecimal.ZERO;
+	private BigDecimal teamTwoLossAmount=BigDecimal.ZERO;
+	private BigDecimal finalAmount=BigDecimal.ZERO;
+	
 	private Satteri satteri;
 
 	@Id
@@ -116,6 +118,14 @@ public class SattaPlayer {
 
 	public void setTeamTwoLossAmount(BigDecimal teamTwoLossAmount) {
 		this.teamTwoLossAmount = teamTwoLossAmount;
+	}
+
+	public BigDecimal getFinalAmount() {
+		return finalAmount;
+	}
+
+	public void setFinalAmount(BigDecimal finalAmount) {
+		this.finalAmount = finalAmount;
 	}
 
 }

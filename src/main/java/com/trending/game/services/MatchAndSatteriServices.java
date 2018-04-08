@@ -1,10 +1,13 @@
 package com.trending.game.services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.trending.game.enums.MatchStatus;
 import com.trending.game.model.Match;
 import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
@@ -56,6 +59,8 @@ public class MatchAndSatteriServices {
 	}
 	
 	public List<Team> getTeamByMatchId(Integer teamId) {
+		Optional<Match> findById = matchRepositories.findById(teamId);
+		findById.get().getTeams().size();
 		return teamRepositories.findByMatchId(teamId);
 		
 	}
@@ -74,5 +79,22 @@ public class MatchAndSatteriServices {
 	public List<SattaPlayer> getSattaPlayers() {
 		return (List<SattaPlayer>)sattaPlayerRepositories.findAll();
 		
+	}
+
+	public void deleteSattaPlayer(Integer id) {
+		sattaPlayerRepositories.deleteById(id);
+		
+	}
+
+	public List<Satteri> getActiveMatch() {
+		// TODO Auto-generated method stub
+		List<Match> findByMatchStatus = matchRepositories.findByMatchStatus(MatchStatus.RUNNING);
+		List<Satteri> satteries = new ArrayList<Satteri>();
+		for(Match match:findByMatchStatus){
+			match.getSatteri().getCurrentMatch().setTeams(getTeamByMatchId(match.getId()));
+			satteries.add(match.getSatteri());
+			
+		}
+		return satteries;
 	}
 }

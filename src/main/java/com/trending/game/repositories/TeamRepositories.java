@@ -13,7 +13,7 @@ import com.trending.game.model.Team;
 @Transactional
 @Repository
 public interface TeamRepositories extends CrudRepository<Team, Integer> {
-	@Query(value="select * from team join match m where m.match_id = ?1",nativeQuery=true)
+	@Query(value="select * from team where match_id = 1",nativeQuery=true)
 	List<Team> findByMatchId(Integer matchId);
 
 }

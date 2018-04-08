@@ -58,7 +58,7 @@ public class Match {
 		this.date = date;
 	}
 
-	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
 	public List<Team> getTeams() {
 		return teams;
 	}

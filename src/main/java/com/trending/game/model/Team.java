@@ -1,6 +1,7 @@
 package com.trending.game.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,7 +24,7 @@ public class Team {
 	private Integer id;
 	private String ratio;
 	private Match match;
-
+	private Integer order;
 	public Team() {
 
 	}
@@ -33,6 +34,7 @@ public class Team {
 		this.setStatus(team.getStatus());
 		this.setId(team.getId());
 		this.setRatio(team.getRatio());
+		this.setOrder(team.getOrder());
 	}
 
 	@Id
@@ -64,7 +66,7 @@ public class Team {
 	}
 
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "matchId")
 	public Match getMatch() {
 		return match;
@@ -81,5 +83,13 @@ public class Team {
 	public void setRatio(String ratio) {
 		this.ratio = ratio;
 
+	}
+	@Column(name="TeamOrder")
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 }
