@@ -8,7 +8,7 @@
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link th:href="@{/css/materialize.css}" href="../static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link th:href="@{/css/style.css}" href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link th:href="@{/css/style.css}"  href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -41,7 +41,7 @@
         <h4>Match Add</h4>
         <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Agree</a>
         <p>Enter details for the match</p> -->
-        <form method="post" id="start-match" name="start-match" onsubmit="match_add()">
+        <form method="post" id="start-match" name="start-match" onClick="match_add()">
           <div class="form-group">
             <label for="name">Name:</label>
             <input name="name" id="name" type="text" required>
@@ -57,23 +57,41 @@
           </div>
           <div class="form-group">
             <!-- <label for="pwd">Password:</label> -->
-            <div class="form-group input-field col s12 m6">
+            <div class="form-group input-field col s12 m6" >
               <select name="team1" class="icons" required>
-                             </select>
+                <option value="" disabled selected>Choose Team 1</option>
+                <option value="CSK" data-icon="../static/images/CSK.png">Chennai Super Kings</option>
+                <option value="DD" data-icon="../static/images/DD.jpeg">Delhi Daredevils</option>
+                <option value="KKR" data-icon="../static/images/KKR.png">Kolkata Knight Riders</option>
+                <option value="KXIP" data-icon="../static/images/KXIP.png">Kings XI Punjab</option>
+                <option value="MI" data-icon="../static/images/MI.jpg">Mumbai Indians</option>
+                <option value="RCB" data-icon="../static/images/RCB.png">Royal Challengers Bangalore</option>
+                <option value="RR" data-icon="../static/images/RR.png">Rajasthan Royals</option>
+                <option value="SRH" data-icon="../static/images/SRH.jpeg">Sunrisers Hyderabad</option>
+              </select>
               <label>Team 1</label>
             </div>
             <div class="form-group input-field col s12 m6">
               <select name="team2" class="icons" required>
-                              </select>
+                <option value="" disabled selected>Choose Team 2</option>
+                <option value="CSK" data-icon="../static/images/CSK.png">Chennai Super Kings</option>
+                <option value="DD" data-icon="../static/images/CSK.png">Delhi Daredevils</option>
+                <option value="KKR"data-icon="../static/images/CSK.png">Kolkata Knight Riders</option>
+                <option value="KXIP" data-icon="../static/images/CSK.png">Kings XI Punjab</option>
+                <option value="MI" data-icon="../static/images/CSK.png">Mumbai Indians</option>
+                <option value="RCB" data-icon="../static/images/CSK.png">Royal Challengers Bangalore</option>
+                <option value="RR" data-icon="../static/images/CSK.png">Rajasthan Royals</option>
+                <option value="SRH" data-icon="../static/images/CSK.png">Sunrisers Hyderabad</option>
+              </select>
               <label>Team 2</label>
             </div>
-            <div class="col s6 m6 center" class="form-group">
+            <div class="form-group col s6 m6 center" c>
               <div class="col m6">
                 <label for="ratio1">Team 1 Ratio</label>
                 <input name="ratio1" type="text" class="form-control" id="ratio1" placeholder="eg. 2K10" required>
               </div>
             </div>
-            <div class="center col s6 m6" class="form-group">
+            <div class="form-group center col s6 m6">
               <div class="col m6">
                 <label for="ratio2">Team 2 Ratio</label>
                 <input name="ratio2" type="text" class="form-control" id="ratio2" placeholder="eg. 10L2" required>

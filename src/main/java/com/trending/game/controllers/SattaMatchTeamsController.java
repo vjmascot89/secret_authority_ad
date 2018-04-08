@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.trending.game.enums.GameResult;
 import com.trending.game.enums.MatchStatus;
@@ -24,7 +24,7 @@ import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
 import com.trending.game.services.MatchAndSatteriServices;
 
-@RestController
+@Controller
 public class SattaMatchTeamsController {
 	@Autowired
 	MatchAndSatteriServices matchAndSatteri;
@@ -35,7 +35,9 @@ public class SattaMatchTeamsController {
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
 		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
+		satteri.getCurrentMatch().getFirstTeam().setOrder(1);
 		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
+		satteri.getCurrentMatch().getSecondTeam().setOrder(2);
 		satteri.setTotalBalanceOnTeamOneWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamTwoWin(BigDecimal.ZERO);
 		satteri.setTotalBalanceOnTeamOneLoss(BigDecimal.ZERO);
@@ -66,6 +68,8 @@ public class SattaMatchTeamsController {
 		sattaPlayer.setCurrentPotTeamTwo(
 				sattaPlayer.getCurrentPotTeamTwo() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamTwo());
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
+		sattaPlayer.setCurrentPotRatioOnTeamOne(sattaPlayer.getCurrentPotRatioOnTeamOne()==null?satteri.getCurrentMatch().getFirstTeam().getRatio():sattaPlayer.getCurrentPotRatioOnTeamOne());
+		sattaPlayer.setCurrentPotRatioOnTeamTwo(sattaPlayer.getCurrentPotRatioOnTeamTwo()==null?satteri.getCurrentMatch().getSecondTeam().getRatio():sattaPlayer.getCurrentPotRatioOnTeamTwo());
 		synchronized (satteriId.toString()) {
 			ProfitLossKCalculation profitLossKCalculation = new ProfitLossKCalculation(algoToCalculationProfitLoss);
 			BigDecimal teamOneWinAmount = profitLossKCalculation
@@ -177,11 +181,11 @@ public class SattaMatchTeamsController {
 							sattaPlayer.getTeamTwoLossAmount(), sattaPlayer.getTeamTwoWinAmount()));
 				}
 				if (index == 1) {
-					satteri.setTotalBalanceOnTeamOneLoss(BigDecimal.ZERO);
-					satteri.setTotalBalanceOnTeamTwoWin(BigDecimal.ZERO);
-				} else if (index == 2) {
 					satteri.setTotalBalanceOnTeamTwoLoss(BigDecimal.ZERO);
 					satteri.setTotalBalanceOnTeamOneWin(BigDecimal.ZERO);
+				} else if (index == 2) {
+					satteri.setTotalBalanceOnTeamOneLoss(BigDecimal.ZERO);
+					satteri.setTotalBalanceOnTeamTwoWin(BigDecimal.ZERO);
 				}
 				satteri.setFinalAmount(profitLossKCalculation.calculateTotalAmountWonOrLost(satteri.getBalancePool(),
 						satteri.getTotalBalanceOnTeamOneLoss(), satteri.getTotalBalanceOnTeamTwoWin(),
@@ -212,8 +216,6 @@ public class SattaMatchTeamsController {
 			matchAndSatteri.deleteSattaPlayer(sattaPlayer.getId());
 			matchAndSatteri.addSatteri(satteri);
 		}
-		// List<Team> teams =
-		// matchAndSatteri.getTeamByMatchId(satteri.getCurrentMatch().getId());
 		return new ResponseEntity<Satteri>(satteri, HttpStatus.ACCEPTED);
 	}
 

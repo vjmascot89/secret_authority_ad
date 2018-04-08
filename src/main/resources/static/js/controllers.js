@@ -3,29 +3,47 @@ $( document ).ready(function() {
   var html_match_content = "";
   var html_players = "";
 
-  $.ajax({
-    url: 'match_name.html',
-    success: function(data) {
-        html_match_name = data;
-        register_template("match_name", html_match_name);
-    }
+  $.when(
+    $.get('match_name.html'),
+    $.get('match_content.html'),
+    $.get('players.html'),
+  ).done(function(match_name, match_content, players){
+    html_match_name = match_name[0];
+    html_match_content = match_content[0];
+    html_players = players[0];
+    register_template("match_name", html_match_name);
+    register_template("match_content", html_match_content);
+    register_template("players", html_players);
+    $.ajax({
+      url: '/satteri',
+      success: function(data) {
+          render_match(data);
+      }
+    });
   });
-
-  $.ajax({
-    url: 'match_content.html',
-    success: function(data) {
-        html_match_content = data;
-        register_template("match_content", html_match_content);
-    }
-  });
-
-  $.ajax({
-    url: 'players.html',
-    success: function(data) {
-        html_players = data;
-        register_template("players", html_players);
-    }
-  });
+  // $.ajax({
+  //   url: 'match_name.html',
+  //   success: function(data) {
+  //       html_match_name = data;
+  //       register_template("match_name", html_match_name);
+  //   }
+  // });
+  //
+  // $.ajax({
+  //   url: 'match_content.html',
+  //   success: function(data) {
+  //       html_match_content = data;
+  //       register_template("match_content", html_match_content);
+  //   }
+  // });
+  //
+  // $.ajax({
+  //   url: 'players.html',
+  //   success: function(data) {
+  //       html_players = data;
+  //       register_template("players", html_players);
+  //   }
+  // });
 
   function register_template(name, markup){
     $.template( name, markup );
@@ -40,16 +58,15 @@ $( document ).ready(function() {
           data["balancePool"] = formObj.balancePool;
           data["currentMatch"] = {
             "date" : formObj.date,
-            "teams" : [
+            "firstTeam" : 
               {
                 "teamName" : formObj.team1,
                 "ratio" : formObj.ratio1,
               },
-              {
+              "secondTeam":{
                 "teamName" : formObj.team2,
                 "ratio" : formObj.ratio2,
               }
-            ]
           };
 
           $.post(
@@ -87,10 +104,10 @@ $( document ).ready(function() {
       match["totalBalanceOnTeamTwoWin"] = data.totalBalanceOnTeamTwoWin;
       match["date"] = data.currentMatch.date;
       match["matchStatus"] = data.currentMatch.matchStatus;
-      match["team1"] = data.currentMatch.teams[0];
-      match["team2"] = data.currentMatch.teams[1];
-      match["ratio1"] = data.currentMatch.teams[0].ratio;
-      match["ratio2"] = data.currentMatch.teams[1].ratio;
+      match["team1"] = data.currentMatch.firstTeam.teamName;
+      match["team2"] = data.currentMatch.secondTeam.teamName;
+      match["ratio1"] = data.currentMatch.firstTeam.ratio;
+      match["ratio2"] = data.currentMatch.secondTeam.ratio;
       matches.push(match);
     }
 
