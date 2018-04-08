@@ -70,11 +70,11 @@ $( document ).ready(function() {
           };
 
           $.post(
-            "localhost:8080/startmatch",
+            "/startmatch",
             data,
             function(data, status){
               console.log(status);
-              //render_match(data);
+              render_match(data);
             }
           );
       }
@@ -86,7 +86,7 @@ $( document ).ready(function() {
       if (is_player_valid()) {
           var formObj = getFormObj("player-add-"+matchId);
           $.post(
-            "localhost:8080/sattalagao/"+matchId,
+            "/sattalagao/"+matchId,
             formObj,
             function(data, status){
               console.log(status);
