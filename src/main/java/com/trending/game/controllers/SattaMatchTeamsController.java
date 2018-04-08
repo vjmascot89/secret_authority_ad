@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.trending.game.enums.GameResult;
 import com.trending.game.enums.MatchStatus;
@@ -24,7 +24,7 @@ import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
 import com.trending.game.services.MatchAndSatteriServices;
 
-@Controller
+@RestController
 public class SattaMatchTeamsController {
 	@Autowired
 	MatchAndSatteriServices matchAndSatteri;
@@ -219,8 +219,4 @@ public class SattaMatchTeamsController {
 		return new ResponseEntity<Satteri>(satteri, HttpStatus.ACCEPTED);
 	}
 
-	@RequestMapping("/")
-	public String index() {
-		return "index";
-	}
 }
