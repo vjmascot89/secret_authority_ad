@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+  debugger;
   var html_match_name = "";
   var html_match_content = "";
   var html_players = "";
