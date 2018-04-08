@@ -67,14 +67,17 @@ function player_add(e){
     var matchId = e.target.value;
     if (is_player_valid()) {
         var formObj = getFormObj("player-add-"+matchId);
-        $.post(
-          "/sattalagao/"+matchId,
-          formObj,
-          function(data, status){
+        $.ajax({
+          url : "/sattalagao/"+matchId,
+          type : "POST",
+          data : JSON.stringify(formObj),
+          dataType:"json",
+          contentType:"application/json; charset=utf-8",
+          success : function(match, status){
             console.log(status);
-            render_player(data);
-          }, "json"
-        );
+            render_player(match);
+          },
+        });
     }
 }
 
@@ -120,7 +123,8 @@ function render_match(matches){
 
 function render_player(data){
   var entries = [];
-  for (player in data.sattaPlayer){
+  for (player_index in data.sattaPlayer){
+    var player = data.sattaPlayer[player_index];
     var entry = {};
     entry["sattaPlayerName"] = player.sattaPlayerName;
     entry["currentPotTeamOne"] = player.currentPotTeamOne;
