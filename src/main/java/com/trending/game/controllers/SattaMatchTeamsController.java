@@ -34,6 +34,7 @@ public class SattaMatchTeamsController {
 	@RequestMapping(method = RequestMethod.POST, value = "/startmatch")
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
+		System.out.println("Add Match and Satteri");
 		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
 		satteri.getCurrentMatch().getFirstTeam().setOrder(1);
 		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
@@ -113,16 +114,18 @@ public class SattaMatchTeamsController {
 
 	@RequestMapping("/activematch")
 	public List<Satteri> getActiveMatches() {
+		System.out.println("Add Active Matches");
 		return matchAndSatteri.getActiveMatch();
 	}
 
 	@RequestMapping("/passivematch")
 	public List<Satteri> getPassiveMatches() {
+		System.out.println("Add Passive Matches");
 		return matchAndSatteri.getPassiveMatch();
 	}	
 	@RequestMapping("/match/{matchId}")
 	public Match getMatch(@PathVariable Integer matchId) {
-
+		System.out.println("get Match");
 		return matchAndSatteri.getMatch(matchId);
 
 	}
@@ -147,6 +150,7 @@ public class SattaMatchTeamsController {
 
 	@RequestMapping("/stopmatch/{teamName}/winner/{satteriId}")
 	public ResponseEntity<Satteri> stopMatch(@PathVariable Integer satteriId, @PathVariable String teamName) {
+		System.out.println("get match") ;
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
 		if (satteri.getCurrentMatch().getMatchStatus() == MatchStatus.RUNNING) {
 			synchronized (satteriId.toString()) {
