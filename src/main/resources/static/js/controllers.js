@@ -58,7 +58,7 @@ $( document ).ready(function() {
           data["balancePool"] = formObj.balancePool;
           data["currentMatch"] = {
             "date" : formObj.date,
-            "firstTeam" : 
+            "firstTeam" :
               {
                 "teamName" : formObj.team1,
                 "ratio" : formObj.ratio1,
@@ -67,7 +67,6 @@ $( document ).ready(function() {
                 "teamName" : formObj.team2,
                 "ratio" : formObj.ratio2,
               }
-            ]
           };
 
           $.post(
