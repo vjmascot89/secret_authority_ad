@@ -67,6 +67,7 @@ $( document ).ready(function() {
                 "teamName" : formObj.team2,
                 "ratio" : formObj.ratio2,
               }
+            ]
           };
 
           $.post(
@@ -75,6 +76,22 @@ $( document ).ready(function() {
             function(data, status){
               console.log(status);
               //render_match(data);
+            }
+          );
+      }
+  }
+
+  function player_add(e){
+      // debugger;
+      var matchId = e.target.value;
+      if (is_player_valid()) {
+          var formObj = getFormObj("player-add-"+matchId);
+          $.post(
+            "localhost:8080/sattalagao/"+matchId,
+            formObj,
+            function(data, status){
+              console.log(status);
+              render_player(data);
             }
           );
       }
@@ -90,6 +107,9 @@ $( document ).ready(function() {
   }
 
   function is_match_valid(){
+    return true;
+  }
+  function is_player_valid(){
     return true;
   }
 
@@ -113,5 +133,23 @@ $( document ).ready(function() {
 
     $.tmpl( "match_name", matches ).appendTo( "#match_name" );
     $.tmpl( "match_content", matches ).appendTo( "#match_content" );
+  }
+
+  function render_player(data){
+    var entries = [];
+    for (player in data.sattaPlayer){
+      var entry = {};
+      entry["sattaPlayerName"] = player.sattaPlayerName;
+      entry["currentPotTeamOne"] = player.currentPotTeamOne;
+      entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
+      entry["teamOneWinAmount"] = player.teamOneWinAmount;
+      entry["currentPotTeamTwo"] = player.currentPotTeamTwo;
+      entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
+      entry["teamTwoWinAmount"] = player.teamTwoWinAmount;
+      entry["player_id"] = player.id;
+      entries.push(match);
+    }
+
+    $.tmpl( "players", entries ).appendTo( "#players_for_match"+data.id );
   }
 });
