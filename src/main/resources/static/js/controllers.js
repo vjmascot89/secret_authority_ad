@@ -117,6 +117,8 @@ function render_match(matches){
     render_matches.push(match);
   }
 
+  // render_matches[render_matches.length - 1]["class"] = "active";
+
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
 }

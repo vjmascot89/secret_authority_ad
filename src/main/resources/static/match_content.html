@@ -19,69 +19,69 @@
   </div>
   <button data-target="player-add-form-match-${match_id}" id="player-add"
    class="btn-large modal-trigger waves-effect waves-light orange">Add Player</button>
-</div>
 
-<div class="card-action">
-  <table>
-      <thead>
-        <tr>
-            <th>Player Name</th>
-            <th>${team1}</th>
-            <th>Amount Team1</th>
-            <th>Ratio Team1</th>
-            <th>Team1 Win Amount</th>
-            <th>${team2}</th>
-            <th>Amount Team2</th>
-            <th>Ratio Team2</th>
-            <th>Team2 Win Amount</th>
-            <th></th>
-        </tr>
-      </thead>
+   <div class="card-action">
+     <table>
+         <thead>
+           <tr>
+               <th>Player Name</th>
+               <th>${team1}</th>
+               <th>Amount Team1</th>
+               <th>Ratio Team1</th>
+               <th>Team1 Win Amount</th>
+               <th>${team2}</th>
+               <th>Amount Team2</th>
+               <th>Ratio Team2</th>
+               <th>Team2 Win Amount</th>
+               <th></th>
+           </tr>
+         </thead>
 
-<!-- Container for players info  -->
-      <tbody id="players_for_match${match_id}">
-      </tbody>
-    </table>
-</div>
+   <!-- Container for players info  -->
+         <tbody id="players_for_match${match_id}">
+         </tbody>
+       </table>
+   </div>
 
-<!-- Match Add Form -->
-<div id="player-add-form-match-${match_id}" class="modal">
-  <div class="modal-content row center">
-    <h4>Player Add</h4>
-    <p>${team1} vs ${team2} ${date}</p>
+   <!-- Match Add Form -->
+   <div id="player-add-form-match-${match_id}" class="modal">
+     <div class="modal-content row center">
+       <h4>Player Add</h4>
+       <p>${team1} vs ${team2} ${date}</p>
 
-    <form method="post" name="player-add-${match_id}">
-      <!-- <input name="id" value="${match_id}" hidden id="id" type="text" required> -->
-      <div class="form-group">
-        <label for="sattaPlayerName">Player Name:</label>
-        <input name="sattaPlayerName" id="sattaPlayerName" type="text" required>
-      </div>
+       <form method="post" name="player-add-${match_id}">
+         <!-- <input name="id" value="${match_id}" hidden id="id" type="text" required> -->
+         <div class="form-group">
+           <label for="sattaPlayerName">Player Name:</label>
+           <input name="sattaPlayerName" id="sattaPlayerName" type="text" required>
+         </div>
 
-      <div class="s12 m6">
-        <div class="form-group col s12">
-          <label for="currentPotTeamOne">Amount on ${team1}:</label>
-          <input name="currentPotTeamOne" id="currentPotTeamOne" type="number" min="0">
-        </div>
-        <div class="form-group col s12">
-          <label for="currentPotRatioOnTeamOne">Ratio on ${team1}:</label>
-          <input name="currentPotRatioOnTeamOne" id="currentPotRatioOnTeamOne" type="number" min="0">
-        </div>
-      </div>
+         <div class="s12 m6">
+           <div class="form-group col s12">
+             <label for="currentPotTeamOne">Amount on ${team1}:</label>
+             <input name="currentPotTeamOne" id="currentPotTeamOne" type="number" min="0">
+           </div>
+           <div class="form-group col s12">
+             <label for="currentPotRatioOnTeamOne">Ratio on ${team1}:</label>
+             <input name="currentPotRatioOnTeamOne" id="currentPotRatioOnTeamOne" type="number" min="0">
+           </div>
+         </div>
 
-      <div class="s12 m6">
-        <div class="form-group col s12">
-          <label for="currentPotTeamTwo">Amount on ${team2}:</label>
-          <input name="currentPotTeamTwo" id="currentPotTeamTwo" type="number" min="0">
-        </div>
-        <div class="form-group col s12">
-          <label for="currentPotRatioOnTeamTwo">Ratio on ${team2}:</label>
-          <input name="currentPotRatioOnTeamTwo" id="currentPotRatioOnTeamTwo" type="number" min="0">
-        </div>
-      </div>
+         <div class="s12 m6">
+           <div class="form-group col s12">
+             <label for="currentPotTeamTwo">Amount on ${team2}:</label>
+             <input name="currentPotTeamTwo" id="currentPotTeamTwo" type="number" min="0">
+           </div>
+           <div class="form-group col s12">
+             <label for="currentPotRatioOnTeamTwo">Ratio on ${team2}:</label>
+             <input name="currentPotRatioOnTeamTwo" id="currentPotRatioOnTeamTwo" type="number" min="0">
+           </div>
+         </div>
 
-      <div class="form-group center">
-        <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn">
-      </div>
-    </form>
-  </div>
+         <div class="form-group center">
+           <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn">
+         </div>
+       </form>
+     </div>
+   </div>
 </div>
