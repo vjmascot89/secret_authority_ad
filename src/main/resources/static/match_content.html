@@ -21,14 +21,37 @@
    class="btn-large modal-trigger waves-effect waves-light orange">Add Player</button>
 </div>
 
+<div class="card-action">
+  <table>
+      <thead>
+        <tr>
+            <th>Player Name</th>
+            <th>${team1}</th>
+            <th>Amount Team1</th>
+            <th>Ratio Team1</th>
+            <th>Team1 Win Amount</th>
+            <th>${team2}</th>
+            <th>Amount Team2</th>
+            <th>Ratio Team2</th>
+            <th>Team2 Win Amount</th>
+            <th></th>
+        </tr>
+      </thead>
+
+<!-- Container for players info  -->
+      <tbody id="players_for_match${match_id}">
+      </tbody>
+    </table>
+</div>
+
 <!-- Match Add Form -->
 <div id="player-add-form-match-${match_id}" class="modal">
   <div class="modal-content row center">
     <h4>Player Add</h4>
     <p>${team1} vs ${team2} ${date}</p>
 
-    <form method="post" name="player-add" onsubmit="player_add()">
-
+    <form method="post" name="player-add-${match_id}">
+      <!-- <input name="id" value="${match_id}" hidden id="id" type="text" required> -->
       <div class="form-group">
         <label for="sattaPlayerName">Player Name:</label>
         <input name="sattaPlayerName" id="sattaPlayerName" type="text" required>
@@ -57,7 +80,7 @@
       </div>
 
       <div class="form-group center">
-        <input type="submit" class="waves-effect waves-green btn">
+        <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn">
       </div>
     </form>
   </div>

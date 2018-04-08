@@ -41,7 +41,7 @@
         <h4>Match Add</h4>
         <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn">Agree</a>
         <p>Enter details for the match</p> -->
-        <form method="post" id="start-match" name="start-match" onclick="match_add()">
+        <form method="post" id="start-match" name="start-match" onsubmit="match_add()">
           <div class="form-group">
             <label for="name">Name:</label>
             <input name="name" id="name" type="text" required>
@@ -57,7 +57,7 @@
           </div>
           <div class="form-group">
             <!-- <label for="pwd">Password:</label> -->
-            <div class="form-group input-field col s12 m6" >
+            <div class="form-group input-field col s12 m6">
               <select name="team1" class="icons" required>
                 <option value="" disabled selected>Choose Team 1</option>
                 <option value="CSK" data-icon="/images/CSK.png">Chennai Super Kings</option>
@@ -125,27 +125,7 @@
           </div>
 
 
-          <div class="card-action">
-            <table>
-                <thead>
-                  <tr>
-                      <th>Player Name</th>
-                      <th>Team1</th>
-                      <th>Amount Team1</th>
-                      <th>Ratio Team1</th>
-                      <th>Team1 Win Amount</th>
-                      <th>Team2</th>
-                      <th>Amount Team2</th>
-                      <th>Ratio Team2</th>
-                      <th>Team2 Win Amount</th>
-                  </tr>
-                </thead>
 
-          <!-- Container for players info  -->
-                <tbody id="players">
-                </tbody>
-              </table>
-          </div>
         </div>
       </div>
 
