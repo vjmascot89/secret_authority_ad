@@ -28,7 +28,7 @@ function register_template(name, markup){
 }
 
 function match_add(){
-    debugger;
+
     if (is_match_valid()) {
         var formObj = getFormObj("start-match");
         var data = {};
@@ -46,15 +46,19 @@ function match_add(){
               "ratio" : formObj.ratio2,
             }
         };
-
-        $.post(
-          "/startmatch",
-          data,
-          function(data, status){
+        debugger;
+        $.ajax({
+          url : "/startmatch",
+          type : "POST",
+          data : JSON.stringify(data),
+          contentType:"application/json; charset=utf-8",
+          dataType:"json",
+          contentType:"application/json; charset=utf-8",
+          success : function(match, status){
             console.log(status);
-            render_match(data);
-          }
-        );
+            render_match(match);
+          },
+        });
     }
 }
 
@@ -69,7 +73,7 @@ function player_add(e){
           function(data, status){
             console.log(status);
             render_player(data);
-          }
+          }, "json"
         );
     }
 }
@@ -91,6 +95,7 @@ function is_player_valid(){
 }
 
 function render_match(matches){
+  debugger;
   var matches = [];
   for (data in matches){
     var match = {};
