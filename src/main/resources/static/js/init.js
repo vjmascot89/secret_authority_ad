@@ -8,6 +8,7 @@
       format : "yyyy-mm-dd"
     });
     $('select').formSelect();
+    // $('.tabs').tabs();
     debugger;
     var html_match_name = "";
     var html_match_content = "";

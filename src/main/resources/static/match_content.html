@@ -43,7 +43,7 @@
        </table>
    </div>
 
-   <!-- Match Add Form -->
+   <!-- Player Add Form -->
    <div id="player-add-form-match-${match_id}" class="modal">
      <div class="modal-content row center">
        <h4>Player Add</h4>
@@ -63,7 +63,7 @@
            </div>
            <div class="form-group col s12">
              <label for="currentPotRatioOnTeamOne">Ratio on ${team1}:</label>
-             <input name="currentPotRatioOnTeamOne" id="currentPotRatioOnTeamOne" type="number" min="0">
+             <input value="${ratio1}" name="currentPotRatioOnTeamOne" id="currentPotRatioOnTeamOne" type="text">
            </div>
          </div>
 
@@ -74,12 +74,12 @@
            </div>
            <div class="form-group col s12">
              <label for="currentPotRatioOnTeamTwo">Ratio on ${team2}:</label>
-             <input name="currentPotRatioOnTeamTwo" id="currentPotRatioOnTeamTwo" type="number" min="0">
+             <input value="${ratio2}" name="currentPotRatioOnTeamTwo" id="currentPotRatioOnTeamTwo" type="text" >
            </div>
          </div>
 
          <div class="form-group center">
-           <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn">
+           <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn"> submit
          </div>
        </form>
      </div>

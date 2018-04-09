@@ -1,28 +1,3 @@
-
-  // $.ajax({
-  //   url: 'match_name.html',
-  //   success: function(data) {
-  //       html_match_name = data;
-  //       register_template("match_name", html_match_name);
-  //   }
-  // });
-  //
-  // $.ajax({
-  //   url: 'match_content.html',
-  //   success: function(data) {
-  //       html_match_content = data;
-  //       register_template("match_content", html_match_content);
-  //   }
-  // });
-  //
-  // $.ajax({
-  //   url: 'players.html',
-  //   success: function(data) {
-  //       html_players = data;
-  //       register_template("players", html_players);
-  //   }
-  // });
-
 function register_template(name, markup){
   $.template( name, markup );
 }
@@ -114,13 +89,18 @@ function render_match(matches){
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
+    match["class"] = "";
     render_matches.push(match);
   }
-
   // render_matches[render_matches.length - 1]["class"] = "active";
 
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
+
+  for (match_index in render_matches) {
+    $('#player-add-form-match-'+render_matches[match_index].match_id).modal();
+  }
+
 }
 
 function render_player(data){
@@ -140,4 +120,5 @@ function render_player(data){
   }
 
   $.tmpl( "players", entries ).appendTo( "#players_for_match"+data.id );
+
 }
