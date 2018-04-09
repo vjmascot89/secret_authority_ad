@@ -113,7 +113,7 @@ function render_player(data){
     fillRelevantValues(entry,player,"currentPotTeamOne") ;
     fillRelevantValues(entry,player,"teamOneWinAmount") ;
     fillRelevantValues(entry,player,"teamOneLossAmount") ;
-    entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
+    entry["currentPotRatioOnTeamTwo"] = player.currentPotRatioOnTeamTwo;
     fillRelevantValues(entry,player,"currentPotTeamTwo") ;
     fillRelevantValues(entry,player,"teamTwoWinAmount") ;
     fillRelevantValues(entry,player,"teamTwoLossAmount") ;
