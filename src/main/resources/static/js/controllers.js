@@ -78,15 +78,17 @@ function render_match(matches){
     match["match_id"] = data.id;
     match["balancePool"] = data.balancePool;
     match["name"] = data.name;
-    match["totalBalanceOnTeamOneWin"] = data.totalBalanceOnTeamOneWin;
-    match["totalBalanceOnTeamTwoWin"] = data.totalBalanceOnTeamTwoWin;
+    fillRelevantValues(match,data,"totalBalanceOnTeamOneWin") ;
+    fillRelevantValues(match,data,"totalBalanceOnTeamOneLoss") ;
+    fillRelevantValues(match,data,"totalBalanceOnTeamTwoWin") ;
+    fillRelevantValues(match,data,"totalBalanceOnTeamTwoLoss") ;
     match["date"] = data.currentMatch.date;
     match["matchStatus"] = data.currentMatch.matchStatus;
     match["team1"] = data.currentMatch.firstTeam.teamName;
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
-    match["class"] = "";
+    fillRelevantValues(match,data,"finalAmount") ;
     render_matches.push(match);
   }
   // render_matches[render_matches.length - 1]["class"] = "active";
@@ -107,12 +109,15 @@ function render_player(data){
     var player = data.sattaPlayer[player_index];
     var entry = {};
     entry["sattaPlayerName"] = player.sattaPlayerName;
-    entry["currentPotTeamOne"] = player.currentPotTeamOne;
     entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
-    entry["teamOneWinAmount"] = player.teamOneWinAmount;
-    entry["currentPotTeamTwo"] = player.currentPotTeamTwo;
+    fillRelevantValues(entry,player,"currentPotTeamOne") ;
+    fillRelevantValues(entry,player,"teamOneWinAmount") ;
+    fillRelevantValues(entry,player,"teamOneLossAmount") ;
     entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
-    entry["teamTwoWinAmount"] = player.teamTwoWinAmount;
+    fillRelevantValues(entry,player,"currentPotTeamTwo") ;
+    fillRelevantValues(entry,player,"teamTwoWinAmount") ;
+    fillRelevantValues(entry,player,"teamTwoLossAmount") ;
+    fillRelevantValues(entry,player,"finalAmount") ;
     entry["player_id"] = player.id;
     entries.push(entry);
   }
@@ -193,4 +198,11 @@ function get_active_matches(){
   //   }
   // });
   location.reload(true);
+}
+function fillRelevantValues(matchList,data,attribute){
+  if(data[attribute]!=0){
+    matchList[attribute]=data[attribute];
+  }else{
+    matchList[attribute]="";
+  }
 }
