@@ -94,6 +94,7 @@ function render_match(matches){
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
 
+  $('.tabs').tabs();
   for (match_index in render_matches) {
     $('#player-add-form-match-'+render_matches[match_index].match_id).modal();
     $('#stop-match-form-'+render_matches[match_index].match_id).modal();
@@ -128,6 +129,18 @@ function stop_match(e) {
   $.ajax({
     url : "/stopmatch/" + formObj[win_name] + "/winner/" + matchId,
     type : "GET",
+    success : function(match, status){
+      console.log(status);
+      location.reload(true);
+    },
+  });
+}
+
+function delete_player(e) {
+  var playerId = e.target.id;
+  $.ajax({
+    url : "/sattalagao/" + playerId,
+    type : "DELETE",
     success : function(match, status){
       console.log(status);
       location.reload(true);

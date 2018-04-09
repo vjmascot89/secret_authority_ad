@@ -8,7 +8,6 @@
       format : "yyyy-mm-dd"
     });
     $('select').formSelect();
-    // $('.tabs').tabs();
     debugger;
     var html_match_name = "";
     var html_match_content = "";
@@ -33,7 +32,8 @@
                 var match_data = data[match_index];
                 render_player(match_data);
               }
-
+              $('.tabs').tabs();
+              
           }
         });
       });
