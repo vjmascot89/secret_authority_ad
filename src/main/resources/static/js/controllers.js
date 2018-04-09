@@ -88,7 +88,8 @@ function render_match(matches){
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
-    fillRelevantValues(match,data,"finalAmount") ;
+    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamOneWin","totalBalanceOnTeamOneWin","totalBalanceOnTeamTwoLoss","balancePool") ;
+    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamTwoWin","totalBalanceOnTeamTwoWin","totalBalanceOnTeamOneLoss","balancePool") ;
     render_matches.push(match);
   }
   // render_matches[render_matches.length - 1]["class"] = "active";
@@ -118,6 +119,8 @@ function render_player(data){
     fillRelevantValues(entry,player,"teamTwoWinAmount") ;
     fillRelevantValues(entry,player,"teamTwoLossAmount") ;
     fillRelevantValues(entry,player,"finalAmount") ;
+    fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
+    fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
     entry["player_id"] = player.id;
     entries.push(entry);
   }
@@ -205,4 +208,13 @@ function fillRelevantValues(matchList,data,attribute){
   }else{
     matchList[attribute]="";
   }
+}
+
+function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss,balancePool){
+    matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss]+data[balancePool];
+  
+}
+function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss){
+    matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
+  
 }
