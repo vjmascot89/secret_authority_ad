@@ -64,37 +64,41 @@ public class SattaMatchTeamsController {
 	public ResponseEntity<Satteri> addSattaPlayer(@RequestBody SattaPlayer sattaPlayer,
 			@PathVariable Integer satteriId) {
 		System.out.println("add Satta Player" + satteriId);
-		sattaPlayer.setCurrentPotTeamOne(
-				sattaPlayer.getCurrentPotTeamOne() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamOne());
-		sattaPlayer.setCurrentPotTeamTwo(
-				sattaPlayer.getCurrentPotTeamTwo() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamTwo());
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
-		sattaPlayer.setCurrentPotRatioOnTeamOne(sattaPlayer.getCurrentPotRatioOnTeamOne()==null?satteri.getCurrentMatch().getFirstTeam().getRatio():sattaPlayer.getCurrentPotRatioOnTeamOne());
-		sattaPlayer.setCurrentPotRatioOnTeamTwo(sattaPlayer.getCurrentPotRatioOnTeamTwo()==null?satteri.getCurrentMatch().getSecondTeam().getRatio():sattaPlayer.getCurrentPotRatioOnTeamTwo());
-		synchronized (satteriId.toString()) {
-			ProfitLossKCalculation profitLossKCalculation = new ProfitLossKCalculation(algoToCalculationProfitLoss);
-			BigDecimal teamOneWinAmount = profitLossKCalculation
-					.adjustBalanceOnWin(sattaPlayer.getCurrentPotRatioOnTeamOne(), sattaPlayer.getCurrentPotTeamOne());
-			BigDecimal teamTwoWinAmount = profitLossKCalculation
-					.adjustBalanceOnWin(sattaPlayer.getCurrentPotRatioOnTeamTwo(), sattaPlayer.getCurrentPotTeamTwo());
+		if (satteri.getCurrentMatch().getMatchStatus() != MatchStatus.STOPPED) {
+			sattaPlayer.setCurrentPotTeamOne(
+					sattaPlayer.getCurrentPotTeamOne() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamOne());
+			sattaPlayer.setCurrentPotTeamTwo(
+					sattaPlayer.getCurrentPotTeamTwo() == null ? BigDecimal.ZERO : sattaPlayer.getCurrentPotTeamTwo());
+			sattaPlayer.setCurrentPotRatioOnTeamOne(sattaPlayer.getCurrentPotRatioOnTeamOne() == null
+					? satteri.getCurrentMatch().getFirstTeam().getRatio() : sattaPlayer.getCurrentPotRatioOnTeamOne());
+			sattaPlayer.setCurrentPotRatioOnTeamTwo(sattaPlayer.getCurrentPotRatioOnTeamTwo() == null
+					? satteri.getCurrentMatch().getSecondTeam().getRatio() : sattaPlayer.getCurrentPotRatioOnTeamTwo());
+			synchronized (satteriId.toString()) {
+				ProfitLossKCalculation profitLossKCalculation = new ProfitLossKCalculation(algoToCalculationProfitLoss);
+				BigDecimal teamOneWinAmount = profitLossKCalculation.adjustBalanceOnWin(
+						sattaPlayer.getCurrentPotRatioOnTeamOne(), sattaPlayer.getCurrentPotTeamOne());
+				BigDecimal teamTwoWinAmount = profitLossKCalculation.adjustBalanceOnWin(
+						sattaPlayer.getCurrentPotRatioOnTeamTwo(), sattaPlayer.getCurrentPotTeamTwo());
 
-			BigDecimal teamOneLossAmount = profitLossKCalculation
-					.adjustBalanceOnLoss(sattaPlayer.getCurrentPotRatioOnTeamOne(), sattaPlayer.getCurrentPotTeamOne());
-			BigDecimal teamTwoLossAmount = profitLossKCalculation
-					.adjustBalanceOnLoss(sattaPlayer.getCurrentPotRatioOnTeamTwo(), sattaPlayer.getCurrentPotTeamTwo());
-			sattaPlayer.setTeamOneWinAmount(teamOneWinAmount);
-			sattaPlayer.setTeamTwoWinAmount(teamTwoWinAmount);
-			sattaPlayer.setTeamOneLossAmount(teamOneLossAmount);
-			sattaPlayer.setTeamTwoLossAmount(teamTwoLossAmount);
-			satteri.setTotalBalanceOnTeamOneWin(satteri.getTotalBalanceOnTeamOneWin().subtract(teamOneLossAmount));
-			satteri.setTotalBalanceOnTeamTwoWin(satteri.getTotalBalanceOnTeamTwoWin().subtract(teamTwoLossAmount));
-			satteri.setTotalBalanceOnTeamOneLoss(satteri.getTotalBalanceOnTeamOneLoss().subtract(teamOneWinAmount));
-			satteri.setTotalBalanceOnTeamTwoLoss(satteri.getTotalBalanceOnTeamTwoLoss().subtract(teamTwoWinAmount));
+				BigDecimal teamOneLossAmount = profitLossKCalculation.adjustBalanceOnLoss(
+						sattaPlayer.getCurrentPotRatioOnTeamOne(), sattaPlayer.getCurrentPotTeamOne());
+				BigDecimal teamTwoLossAmount = profitLossKCalculation.adjustBalanceOnLoss(
+						sattaPlayer.getCurrentPotRatioOnTeamTwo(), sattaPlayer.getCurrentPotTeamTwo());
+				sattaPlayer.setTeamOneWinAmount(teamOneWinAmount);
+				sattaPlayer.setTeamTwoWinAmount(teamTwoWinAmount);
+				sattaPlayer.setTeamOneLossAmount(teamOneLossAmount);
+				sattaPlayer.setTeamTwoLossAmount(teamTwoLossAmount);
+				satteri.setTotalBalanceOnTeamOneWin(satteri.getTotalBalanceOnTeamOneWin().subtract(teamOneLossAmount));
+				satteri.setTotalBalanceOnTeamTwoWin(satteri.getTotalBalanceOnTeamTwoWin().subtract(teamTwoLossAmount));
+				satteri.setTotalBalanceOnTeamOneLoss(satteri.getTotalBalanceOnTeamOneLoss().subtract(teamOneWinAmount));
+				satteri.setTotalBalanceOnTeamTwoLoss(satteri.getTotalBalanceOnTeamTwoLoss().subtract(teamTwoWinAmount));
 
-			if (satteri != null) {
-				Satteri satteriLocal = new Satteri(satteri);
-				sattaPlayer.setSatteri(satteriLocal);
-				matchAndSatteri.addSattaPlayer(sattaPlayer);
+				if (satteri != null) {
+					Satteri satteriLocal = new Satteri(satteri);
+					sattaPlayer.setSatteri(satteriLocal);
+					matchAndSatteri.addSattaPlayer(sattaPlayer);
+				}
 			}
 		}
 		return new ResponseEntity<Satteri>(satteri, HttpStatus.ACCEPTED);
@@ -122,15 +126,16 @@ public class SattaMatchTeamsController {
 	public List<Match> getAllPassiveMatches() {
 		System.out.println("Add all Passive Matches");
 		return matchAndSatteri.getAllPassiveMatch();
-	}	
-	
+	}
+
 	@RequestMapping("/passivematch/{matchId}")
 	public List<Satteri> getPassiveMatches(@PathVariable Integer matchId) {
-		System.out.println("Add Passive satteri for "+ matchId);
+		System.out.println("Add Passive satteri for " + matchId);
 		ArrayList<Satteri> arrayList = new ArrayList<Satteri>();
 		arrayList.add(matchAndSatteri.getPassiveMatch(matchId));
 		return arrayList;
 	}
+
 	@RequestMapping("/match/{matchId}")
 	public Match getMatch(@PathVariable Integer matchId) {
 		System.out.println("get Match");
@@ -158,7 +163,7 @@ public class SattaMatchTeamsController {
 
 	@RequestMapping("/stopmatch/{teamName}/winner/{satteriId}")
 	public ResponseEntity<Satteri> stopMatch(@PathVariable Integer satteriId, @PathVariable String teamName) {
-		System.out.println("get match") ;
+		System.out.println("get match");
 		Satteri satteri = matchAndSatteri.getSatteri(satteriId);
 		if (satteri.getCurrentMatch().getMatchStatus() == MatchStatus.RUNNING) {
 			synchronized (satteriId.toString()) {
@@ -167,7 +172,8 @@ public class SattaMatchTeamsController {
 				satteri.getCurrentMatch().setMatchStatus(MatchStatus.STOPPED);
 				int index = 0;
 
-				if (satteri.getCurrentMatch().getFirstTeam().getTeamName().equals(TeamsName.valueOf(teamName.toUpperCase()))) {
+				if (satteri.getCurrentMatch().getFirstTeam().getTeamName()
+						.equals(TeamsName.valueOf(teamName.toUpperCase()))) {
 					index = 1;
 					satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.Won);
 					satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.Lost);
@@ -216,17 +222,19 @@ public class SattaMatchTeamsController {
 
 		SattaPlayer sattaPlayer = matchAndSatteri.getSattaPlayer(sattaPlayerId);
 		Satteri satteri = sattaPlayer.getSatteri();
-		synchronized (satteri.getId().toString()) {
-			satteri.setTotalBalanceOnTeamOneWin(
-					satteri.getTotalBalanceOnTeamOneWin().add(sattaPlayer.getTeamOneLossAmount()));
-			satteri.setTotalBalanceOnTeamTwoWin(
-					satteri.getTotalBalanceOnTeamTwoWin().add(sattaPlayer.getTeamTwoLossAmount()));
-			satteri.setTotalBalanceOnTeamOneLoss(
-					satteri.getTotalBalanceOnTeamOneLoss().add(sattaPlayer.getTeamOneWinAmount()));
-			satteri.setTotalBalanceOnTeamTwoLoss(
-					satteri.getTotalBalanceOnTeamTwoLoss().add(sattaPlayer.getTeamTwoWinAmount()));
-			matchAndSatteri.deleteSattaPlayer(sattaPlayer.getId());
-			matchAndSatteri.addSatteri(satteri);
+		if (!satteri.getCurrentMatch().getMatchStatus().equals(MatchStatus.STOPPED)) {
+			synchronized (satteri.getId().toString()) {
+				satteri.setTotalBalanceOnTeamOneWin(
+						satteri.getTotalBalanceOnTeamOneWin().add(sattaPlayer.getTeamOneLossAmount()));
+				satteri.setTotalBalanceOnTeamTwoWin(
+						satteri.getTotalBalanceOnTeamTwoWin().add(sattaPlayer.getTeamTwoLossAmount()));
+				satteri.setTotalBalanceOnTeamOneLoss(
+						satteri.getTotalBalanceOnTeamOneLoss().add(sattaPlayer.getTeamOneWinAmount()));
+				satteri.setTotalBalanceOnTeamTwoLoss(
+						satteri.getTotalBalanceOnTeamTwoLoss().add(sattaPlayer.getTeamTwoWinAmount()));
+				matchAndSatteri.deleteSattaPlayer(sattaPlayer.getId());
+				matchAndSatteri.addSatteri(satteri);
+			}
 		}
 		return new ResponseEntity<Satteri>(satteri, HttpStatus.ACCEPTED);
 	}
