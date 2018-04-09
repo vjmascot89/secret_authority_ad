@@ -174,12 +174,12 @@ public class SattaMatchTeamsController {
 
 				if (satteri.getCurrentMatch().getFirstTeam().getTeamName()
 						.equals(TeamsName.valueOf(teamName.toUpperCase()))) {
-					index = 1;
+					index = satteri.getCurrentMatch().getFirstTeam().getOrder();
 					satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.Won);
 					satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.Lost);
 				} else if (satteri.getCurrentMatch().getSecondTeam().getTeamName()
 						.equals(TeamsName.valueOf(teamName))) {
-					index = 2;
+					index = satteri.getCurrentMatch().getSecondTeam().getOrder();
 					satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.Lost);
 					satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.Won);
 				}
