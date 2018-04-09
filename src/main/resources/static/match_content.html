@@ -20,6 +20,9 @@
   <button data-target="player-add-form-match-${match_id}" id="player-add"
    class="btn-large modal-trigger waves-effect waves-light orange">Add Player</button>
 
+   <button data-target="stop-match-form-${match_id}" id="player-add"
+    class="btn-large modal-trigger waves-effect waves-light orange">Stop Match</button>
+
    <div class="card-action">
      <table>
          <thead>
@@ -49,7 +52,7 @@
        <h4>Player Add</h4>
        <p>${team1} vs ${team2} ${date}</p>
 
-       <form method="post" name="player-add-${match_id}">
+       <form method="post" name="player-add-${match_id}" id="player-add-${match_id}">
          <!-- <input name="id" value="${match_id}" hidden id="id" type="text" required> -->
          <div class="form-group">
            <label for="sattaPlayerName">Player Name:</label>
@@ -79,9 +82,43 @@
          </div>
 
          <div class="form-group center">
-           <input type="submit" value="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn"> submit
+           <input type="submit" id="${match_id}" onclick="player_add(event)" class="waves-effect waves-green btn">
          </div>
        </form>
      </div>
    </div>
+
+   <!-- Stop match Form -->
+   <div id="stop-match-form-${match_id}" class="modal">
+     <div class="modal-content row center">
+       <h4>Stop Match</h4>
+       <p>${team1} vs ${team2} ${date}</p>
+
+       <form method="post" name="stop-match-${match_id}" id="stop-match-${match_id}">
+         <!-- <input name="match_id" value="${match_id}" hidden id="match_id" type="text" required> -->
+         <div class="col s12">
+           <p>
+            <label>
+              <input class="with-gap" name="win-match-${match_id}" value="${team1}" type="radio" />
+              <span>${team1}</span>
+            </label>
+          </p>
+         </div>
+
+         <div class="col s12">
+          <p>
+            <label>
+              <input class="with-gap" name="win-match-${match_id}" value="${team2}" type="radio" />
+              <span>${team2}</span>
+            </label>
+          </p>
+        </div>
+
+         <div class="form-group center">
+           <input type="submit" id="${match_id}" onclick="stop_match(event)" class="waves-effect waves-green btn">
+         </div>
+       </form>
+     </div>
+   </div>
+
 </div>

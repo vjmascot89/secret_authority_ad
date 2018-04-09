@@ -21,7 +21,6 @@ function match_add(){
               "ratio" : formObj.ratio2,
             }
         };
-        debugger;
         $.ajax({
           url : "/startmatch",
           type : "POST",
@@ -38,8 +37,7 @@ function match_add(){
 }
 
 function player_add(e){
-    // debugger;
-    var matchId = e.target.value;
+    var matchId = e.target.id;
     if (is_player_valid()) {
         var formObj = getFormObj("player-add-"+matchId);
         $.ajax({
@@ -73,7 +71,6 @@ function is_player_valid(){
 }
 
 function render_match(matches){
-  debugger;
   var render_matches = [];
   for (match_index in matches){
     var data = matches[match_index];
@@ -99,6 +96,7 @@ function render_match(matches){
 
   for (match_index in render_matches) {
     $('#player-add-form-match-'+render_matches[match_index].match_id).modal();
+    $('#stop-match-form-'+render_matches[match_index].match_id).modal();
   }
 
 }
@@ -116,9 +114,23 @@ function render_player(data){
     entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
     entry["teamTwoWinAmount"] = player.teamTwoWinAmount;
     entry["player_id"] = player.id;
-    entries.push(match);
+    entries.push(entry);
   }
-
+  debugger;
   $.tmpl( "players", entries ).appendTo( "#players_for_match"+data.id );
 
+}
+
+function stop_match(e) {
+  var matchId = e.target.id;
+  var win_name = "win-match-" + matchId;
+  var formObj = getFormObj("stop-match-"+matchId);
+  $.ajax({
+    url : "/stopmatch/" + formObj[win_name] + "/winner/" + matchId,
+    type : "GET",
+    success : function(match, status){
+      console.log(status);
+      location.reload(true);
+    },
+  });
 }

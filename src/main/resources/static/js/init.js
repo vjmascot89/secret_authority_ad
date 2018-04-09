@@ -26,9 +26,14 @@
         register_template("match_content", html_match_content);
         register_template("players", html_players);
         $.ajax({
-          url: '/satteri',
+          url: '/activematch',
           success: function(data) {
               render_match(data);
+              for(match_index in data){
+                var match_data = data[match_index];
+                render_player(match_data);
+              }
+
           }
         });
       });
