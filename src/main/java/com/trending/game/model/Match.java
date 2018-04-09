@@ -14,12 +14,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.trending.game.enums.MatchStatus;
 
 @Entity
-@Table(name = "Match")
+@Table(name = "Match",
+uniqueConstraints= { @UniqueConstraint(columnNames = {"date", "FirstTeamName","SecondTeamName"})})
 public class Match {
 
 	Date date;
