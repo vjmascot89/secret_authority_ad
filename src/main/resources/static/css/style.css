@@ -6,7 +6,7 @@
  * Made By MaterializeCSS.com
  */
 
-.icon-block {
+.icon-block .logo-container {
   padding: 0 15px;
 }
 .icon-block .material-icons {
@@ -14,5 +14,11 @@
 }
 
 .modal{
-  width: 25%;
+  width: 35%;
+}
+
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
 }

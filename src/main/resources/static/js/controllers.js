@@ -147,3 +147,17 @@ function delete_player(e) {
     },
   });
 }
+
+function render_previous_matches_dropdown(data){
+  var matches = [];
+  for (match_index in data){
+    var match = data[match_index];
+    var entry = {};
+    entry["team1"] = match.firstTeam.teamName;
+    entry["team2"] = match.secondTeam.teamName;
+    entry["date"] = match.date;
+    entry["match_id"] = match.id;
+    matches.push(entry);
+  }
+  $.tmpl( "previous_matches_dropdown", matches ).appendTo( "#previous-matches-dropdown" );
+}
