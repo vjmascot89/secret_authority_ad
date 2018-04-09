@@ -34,6 +34,7 @@
           url: '/activematch',
           success: function(data) {
               render_match(data);
+              $('.tabs').tabs();
               for(match_index in data){
                 var match_data = data[match_index];
                 render_player(match_data);

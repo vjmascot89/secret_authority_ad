@@ -93,9 +93,8 @@ function render_match(matches){
 
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
-
-  $('.tabs').tabs();
   for (match_index in render_matches) {
+    // $('#tab-match-'+render_matches[match_index].match_id).tabs();
     $('#player-add-form-match-'+render_matches[match_index].match_id).modal();
     $('#stop-match-form-'+render_matches[match_index].match_id).modal();
   }
@@ -157,7 +156,41 @@ function render_previous_matches_dropdown(data){
     entry["team2"] = match.secondTeam.teamName;
     entry["date"] = match.date;
     entry["match_id"] = match.id;
-    matches.push(entry);
+      matches.push(entry);
   }
   $.tmpl( "previous_matches_dropdown", matches ).appendTo( "#previous-matches-dropdown" );
+}
+
+function get_passive_match(e){
+  var matchId = e.target.id;
+  $.ajax({
+    url : "/passivematch/" + matchId,
+    type : "GET",
+    success : function(matches, status){
+      console.log(status);
+      $( "#match_name" ).empty();
+      $( "#match_content" ).empty();
+      render_match(matches);
+      for(match_index in matches){
+        var match_data = matches[match_index];
+        render_player(match_data);
+      }
+    },
+  });
+}
+
+function get_active_matches(){
+  // $.ajax({
+  //   url: '/activematch',
+  //   success: function(data) {
+  //     $( "#match_name" ).empty();
+  //     $( "#match_content" ).empty();
+  //     render_match(data);
+  //     for(match_index in data){
+  //       var match_data = data[match_index];
+  //       render_player(match_data);
+  //     }
+  //   }
+  // });
+  location.reload(true);
 }

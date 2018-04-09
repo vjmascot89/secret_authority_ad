@@ -110,12 +110,12 @@
       <div class="row center">
         <div class="card">
           <div class="card-content col l6 m6 s12">
-            <p>MATCHES</p>
+            <button class="waves-effect waves-teal btn-flat" onclick="get_active_matches()">ACTIVE MATCHES <i class="material-icons right">send</i></button>
           </div>
-          <div class="card-content col l6 m6 s12 dropdown-trigger waves-effect waves-teal btn-flat"
-           href='#' data-target='previous-matches-dropdown'>
-            <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a> -->
-            Previous / Stopped Matches<i class="material-icons">arrow_drop_down</i>
+          <div class="card-content col l6 m6 s12 ">
+           <!-- <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</a> -->
+            <a class="dropdown-trigger waves-effect waves-teal btn-flat"
+              data-target="previous-matches-dropdown" >Previous / Stopped Matches<i class="material-icons">arrow_drop_down</i></a>
           </div>
 
           <!-- Container for previous matches -->
