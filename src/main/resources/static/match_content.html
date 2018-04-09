@@ -1,8 +1,9 @@
 <div id="match${match_id}" class="row">
   <div class="col s12">
     <div class="col s6">
-      <p><span>Name: ${name}</span></p>
+     <p><span>Name: ${name}</span></p>
       <p><span>Balance: ${balancePool}</span></p>
+      <p><span>Final Won Or Lost: ${finalAmount}</span></p>
       <p><span>Teams: ${team1} vs ${team2} ${date}</span></p>
       <p><span>Match status: ${matchStatus}</span></p>
     </div>
@@ -12,9 +13,18 @@
         <span>Default Ratio ${ratio1}</span>
       </p>
       <p>
+        <span>ON ${team1} Loss: ${totalBalanceOnTeamOneLoss}</span>
+        <span>Default Ratio ${ratio1}</span>
+      </p>
+      <p>
         <span>ON ${team2} Win: ${totalBalanceOnTeamTwoWin}</span>
         <span>Default Ratio ${ratio2}</span>
       </p>
+      <p>
+        <span>ON ${team2} Loss: ${totalBalanceOnTeamTwoLoss}</span>
+        <span>Default Ratio ${ratio1}</span>
+      </p>
+
     </div>
   </div>
   <button data-target="player-add-form-match-${match_id}" id="player-add"
@@ -27,16 +37,18 @@
      <table>
          <thead>
            <tr>
-               <th>Player Name</th>
+              <th>Player Name</th>
                <th>${team1}</th>
-               <th>Amount Team1</th>
-               <th>Ratio Team1</th>
-               <th>Team1 Win Amount</th>
+               <th>Amount</th>
+               <th>Ratio</th>
+               <th>Win Value</th>
+               <th>Loss Value</th>
                <th>${team2}</th>
-               <th>Amount Team2</th>
-               <th>Ratio Team2</th>
-               <th>Team2 Win Amount</th>
-               <th>Delete</th>
+               <th>Amount</th>
+               <th>Ratio</th>
+               <th>Win Value</th>
+               <th>Loss Value</th>
+               <th>Final PnL</th>
            </tr>
          </thead>
 
