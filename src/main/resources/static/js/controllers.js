@@ -76,7 +76,7 @@ function delete_player(e) {
     type : "DELETE",
     success : function(match, status){
       console.log(status);
-      delete_player_from_list(match);
+      render_all_players(match);
     },
   });
 }
