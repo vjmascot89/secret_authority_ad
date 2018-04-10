@@ -3,7 +3,7 @@ function register_template(name, markup){
 }
 
 function match_add(){
-
+    event.preventDefault();
     if (is_match_valid()) {
         var formObj = getFormObj("start-match");
         var data = {};
@@ -32,6 +32,11 @@ function match_add(){
             console.log(status);
             render_match(match);
           },
+          error : function ( jqXHR, textStatus,errorThrown) {
+            var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+            console.log(responseText);
+             M.toast({html: responseText});
+          }
         });
     }
 }
@@ -51,6 +56,11 @@ function player_add(e){
             console.log(status);
             render_all_players(match);
           },
+          error : function ( jqXHR, textStatus,errorThrown) {
+            var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+            console.log(errorThrown);
+             M.toast({html: errorThrown});
+          }
         });
     }
 }
@@ -66,6 +76,11 @@ function stop_match(e) {
       console.log(status);
       location.reload(true);
     },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
   });
 }
 
@@ -78,6 +93,11 @@ function delete_player(e) {
       console.log(status);
       render_all_players(match);
     },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
   });
 }
 
@@ -200,6 +220,11 @@ function get_passive_match(e){
         add_player_to_list(match_data);
       }
     },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
   });
 }
 
