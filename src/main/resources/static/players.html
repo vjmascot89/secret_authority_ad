@@ -12,5 +12,5 @@
   <td>${teamTwoWinAmount}</td>
   <td>${teamTwoLossAmount}</td>
   <td>${finalAmountOnTeamTwoWin}</td>
-  <td><button class="btn" id="${player_id}" onclick="delete_player(event)"><i id="${player_id}" class="material-icons" >delete_forever</i></button></td>
+  <td>{{if matchStatus=="RUNNING"}}<button class="btn" id="${player_id}" onclick="delete_player(event)"><i id="${player_id}" class="material-icons" >delete_forever</i></button>{{/if}}</td>
 </tr>

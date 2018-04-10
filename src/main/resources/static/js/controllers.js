@@ -150,6 +150,7 @@ function render_player(data){
     fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
     fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
     entry["player_id"] = player.id;
+    entry["matchStatus"] = data.currentMatch.matchStatus;
     entries.push(entry);
   }
   return entries;
@@ -196,7 +197,7 @@ function get_passive_match(e){
       render_match(matches);
       for(match_index in matches){
         var match_data = matches[match_index];
-        render_player(match_data);
+        add_player_to_list(match_data);
       }
     },
   });
