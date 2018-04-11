@@ -35,6 +35,8 @@ public class SattaMatchTeamsController {
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
 		System.out.println("Add Match and Satteri");
+		
+		validation(satteri);
 		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
 		satteri.getCurrentMatch().getFirstTeam().setOrder(1);
 		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
@@ -57,6 +59,11 @@ public class SattaMatchTeamsController {
 		arrayList.add(satteri);
 		return new ResponseEntity<List<Satteri>>(arrayList, HttpStatus.ACCEPTED);
 
+	}
+
+	private void validation(Satteri satteri) {
+//		ValidationUtil.validate(satteri);
+		
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/sattalagao/{satteriId}")
