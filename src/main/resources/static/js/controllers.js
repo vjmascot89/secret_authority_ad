@@ -3,7 +3,7 @@ function register_template(name, markup){
 }
 
 function match_add(){
-
+    event.preventDefault();
     if (is_match_valid()) {
         var formObj = getFormObj("start-match");
         var data = {};
@@ -32,11 +32,17 @@ function match_add(){
             console.log(status);
             render_match(match);
           },
+          error : function ( jqXHR, textStatus,errorThrown) {
+            var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+            console.log(responseText);
+             M.toast({html: responseText});
+          }
         });
     }
 }
 
 function player_add(e){
+    event.preventDefault();
     var matchId = e.target.id;
     if (is_player_valid()) {
         var formObj = getFormObj("player-add-"+matchId);
@@ -48,10 +54,51 @@ function player_add(e){
           contentType:"application/json; charset=utf-8",
           success : function(match, status){
             console.log(status);
-            render_player(match);
+            render_all_players(match);
           },
+          error : function ( jqXHR, textStatus,errorThrown) {
+            var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+            console.log(errorThrown);
+             M.toast({html: errorThrown});
+          }
         });
     }
+}
+
+function stop_match(e) {
+  var matchId = e.target.id;
+  var win_name = "win-match-" + matchId;
+  var formObj = getFormObj("stop-match-"+matchId);
+  $.ajax({
+    url : "/stopmatch/" + formObj[win_name] + "/winner/" + matchId,
+    type : "GET",
+    success : function(match, status){
+      console.log(status);
+      location.reload(true);
+    },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
+  });
+}
+
+function delete_player(e) {
+  var playerId = e.target.id;
+  $.ajax({
+    url : "/sattalagao/" + playerId,
+    type : "DELETE",
+    success : function(match, status){
+      console.log(status);
+      render_all_players(match);
+    },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
+  });
 }
 
 function getFormObj(formId) {
@@ -105,6 +152,7 @@ function render_match(matches){
 }
 
 function render_player(data){
+
   var entries = [];
   for (player_index in data.sattaPlayer){
     var player = data.sattaPlayer[player_index];
@@ -122,38 +170,26 @@ function render_player(data){
     fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
     fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
     entry["player_id"] = player.id;
+    entry["matchStatus"] = data.currentMatch.matchStatus;
     entries.push(entry);
   }
-  debugger;
-  $.tmpl( "players", entries ).appendTo( "#players_for_match"+data.id );
+  return entries;
 
 }
 
-function stop_match(e) {
-  var matchId = e.target.id;
-  var win_name = "win-match-" + matchId;
-  var formObj = getFormObj("stop-match-"+matchId);
-  $.ajax({
-    url : "/stopmatch/" + formObj[win_name] + "/winner/" + matchId,
-    type : "GET",
-    success : function(match, status){
-      console.log(status);
-      location.reload(true);
-    },
-  });
+function add_player_to_list(data){
+  $.tmpl( "players", render_player(data) ).appendTo( "#players_for_match"+data.id );
 }
 
-function delete_player(e) {
-  var playerId = e.target.id;
-  $.ajax({
-    url : "/sattalagao/" + playerId,
-    type : "DELETE",
-    success : function(match, status){
-      console.log(status);
-      location.reload(true);
-    },
-  });
+function render_all_players(data){
+  $( "#players_for_match" + data.id ).empty();
+  $.tmpl( "players", render_player(data) ).appendTo( "#players_for_match"+data.id );
 }
+
+function delete_player_from_list(data){
+  $( "#players_for_match" + data.id ).find(data.sattaPlayer[0].id).closest("tr").remove();
+}
+
 
 function render_previous_matches_dropdown(data){
   var matches = [];
@@ -181,9 +217,14 @@ function get_passive_match(e){
       render_match(matches);
       for(match_index in matches){
         var match_data = matches[match_index];
-        render_player(match_data);
+        add_player_to_list(match_data);
       }
     },
+    error : function ( jqXHR, textStatus,errorThrown) {
+      var responseText = jQuery.parseJSON(jqXHR.responseText).message;
+      console.log(errorThrown);
+       M.toast({html: errorThrown});
+    }
   });
 }
 
@@ -212,9 +253,9 @@ function fillRelevantValues(matchList,data,attribute){
 
 function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss,balancePool){
     matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss]+data[balancePool];
-  
+
 }
 function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss){
     matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
-  
+
 }
