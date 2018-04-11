@@ -1,16 +1,16 @@
 <tr>
   <td>${sattaPlayerName}</td>
-  <td>${team1}</td>
-  <td>${currentPotTeamOne}</td>
-  <td>${currentPotRatioOnTeamOne}</td>
-  <td>${teamOneWinAmount}</td>
-  <td>${teamOneLossAmount}</td>
-  <td>${finalAmountOnTeamOneWin}</td>
-  <td>${team2}</td>
-  <td>${currentPotTeamTwo}</td>
-  <td>${currentPotRatioOnTeamTwo}</td>
-  <td>${teamTwoWinAmount}</td>
-  <td>${teamTwoLossAmount}</td>
-  <td>${finalAmountOnTeamTwoWin}</td>
+  <td style="color: ${team1Color}">${team1}</td>
+  <td style="color: ${team1Color}">${currentPotTeamOne}</td>
+  <td style="color: ${team1Color}">${currentPotRatioOnTeamOne}</td>
+  <td style="color: ${team1Color}">${teamOneWinAmount}</td>
+  <td style="color: ${team1Color}">${teamOneLossAmount}</td>
+  <td style="color: ${team1Color}">${finalAmountOnTeamOneWin}</td>
+  <td style="color: ${team2Color}">${team2}</td>
+  <td style="color: ${team2Color}">${currentPotTeamTwo}</td>
+  <td style="color: ${team2Color}">${currentPotRatioOnTeamTwo}</td>
+  <td style="color: ${team2Color}">${teamTwoWinAmount}</td>
+  <td style="color: ${team2Color}">${teamTwoLossAmount}</td>
+  <td style="color: ${team2Color}">${finalAmountOnTeamTwoWin}</td>
   <td>{{if matchStatus=="RUNNING"}}<button class="btn" id="${player_id}" onclick="delete_player(event)"><i id="${player_id}" class="material-icons" >delete_forever</i></button>{{/if}}</td>
 </tr>

@@ -135,6 +135,8 @@ function render_match(matches){
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
+    match["team1Color"] = getTeamColor(data.currentMatch.firstTeam.teamName);
+    match["team2Color"] = getTeamColor(data.currentMatch.secondTeam.teamName);
     fillFinalAmountOnTeams(match,data,"finalAmountOnTeamOneWin","totalBalanceOnTeamTwoWin","totalBalanceOnTeamOneLoss","balancePool") ;
     fillFinalAmountOnTeams(match,data,"finalAmountOnTeamTwoWin","totalBalanceOnTeamOneWin","totalBalanceOnTeamTwoLoss","balancePool") ;
     render_matches.push(match);
@@ -171,6 +173,8 @@ function render_player(data){
     fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
     entry["player_id"] = player.id;
     entry["matchStatus"] = data.currentMatch.matchStatus;
+    entry["team1Color"] = getTeamColor(data.currentMatch.firstTeam.teamName);
+    entry["team2Color"] = getTeamColor(data.currentMatch.secondTeam.teamName);
     entries.push(entry);
   }
   return entries;
@@ -259,3 +263,17 @@ function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTe
     matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
 
 }
+
+var getTeamColor = (function () {
+    var color_dictionary = {
+      "CSK" : "#FFFF3C",
+      "DD" : "#C02826",
+      "KXIP" : "#ED1D24",
+      "KKR" : "#3A225D",
+      "MI" : "#005FA2",
+      "RCB" : "#C9920E",
+      "RR" : "#254AA5",
+      "SRH" : "#352722",
+    };
+    return function (teamName) {return color_dictionary[teamName];}
+})();

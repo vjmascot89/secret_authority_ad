@@ -1,56 +1,54 @@
 <div id="match${match_id}" class="row">
-  <div class="col s12">
-    <div class="col s6">
-     <p><span>Name: ${name}</span></p>
-      <p><span>Balance: ${balancePool}</span></p>
-      <p><span>Final Amount on ${team1} Win : ${finalAmountOnTeamOneWin}</span></p>
-      <p><span>Final Amount on ${team2} Win : ${finalAmountOnTeamTwoWin}</span></p>
-      <p><span>Teams: ${team1} vs ${team2} ${date}</span></p>
-      <p><span>Match status: ${matchStatus}</span></p>
+  <div class="col s12" style="margin:25px;">
+    <div class="col s3 right-align match-keys">
+     <p><span>Name :</span></p>
+      <p><span>Balance :</span></p>
+      <p><span>Final Amount on ${team1} Win :</span></p>
+      <p><span>Final Amount on ${team2} Win :</span></p>
+      <p><span>Date :</span></p>
+      <p><span>Match status :</span></p>
     </div>
-<!--     <div class="col s6"> -->
-<!--       <p> -->
-<!--         <span>ON ${team1} Win: ${totalBalanceOnTeamOneWin}</span> -->
-<!--         <span>Default Ratio ${ratio1}</span> -->
-<!--       </p> -->
-<!--       <p> -->
-<!--         <span>ON ${team1} Loss: ${totalBalanceOnTeamOneLoss}</span> -->
-<!--         <span>Default Ratio ${ratio1}</span> -->
-<!--       </p> -->
-<!--       <p> -->
-<!--         <span>ON ${team2} Win: ${totalBalanceOnTeamTwoWin}</span> -->
-<!--         <span>Default Ratio ${ratio2}</span> -->
-<!--       </p> -->
-<!--       <p> -->
-<!--         <span>ON ${team2} Loss: ${totalBalanceOnTeamTwoLoss}</span> -->
-<!--         <span>Default Ratio ${ratio1}</span> -->
-<!--       </p> -->
+    <div class="col s4 left-align">
+     <p><span>${name}</span></p>
+      <p><span>${balancePool}</span></p>
+      <p><span>${finalAmountOnTeamOneWin}</span></p>
+      <p><span>${finalAmountOnTeamTwoWin}</span></p>
+      <p><span>${date}</span></p>
+      <p><span>${matchStatus}</span></p>
+    </div>
+    <div class="col s3 left-align row">
 
-<!--     </div> -->
+      <div class="col s12">
+        <button data-target="player-add-form-match-${match_id}" id="player-add"
+         class="btn waves-effect waves-light modal-trigger">Add Player <i class="material-icons right">add</i></button>
+      </div>
+
+      <div class="col s12" style="margin-top:25px;">
+        <button data-target="stop-match-form-${match_id}" id="player-add"
+         class="btn waves-effect waves-light modal-trigger">Stop Match <i class="material-icons right">stop</i></button>
+      </div>
+
+    </div>
   </div>
-  <button data-target="player-add-form-match-${match_id}" id="player-add"
-   class="btn-large modal-trigger waves-effect waves-light orange">Add Player</button>
 
-   <button data-target="stop-match-form-${match_id}" id="player-add"
-    class="btn-large modal-trigger waves-effect waves-light orange">Stop Match</button>
 
    <div class="card-action">
-     <table>
+     <table class="highlight centered responsive-table">
          <thead>
            <tr>
               <th>Player Name</th>
-               <th>${team1}</th>
-               <th>Amount</th>
-               <th>Ratio</th>
-               <th>Win Value</th>
-               <th>Loss Value</th>
-               <th>Final PnL</th>
-               <th>${team2}</th>
-               <th>Amount</th>
-               <th>Ratio</th>
-               <th>Win Value</th>
-               <th>Loss Value</th>
-               <th>Final PnL</th>
+               <th style="color: ${team1Color}">${team1}</th>
+               <th style="color: ${team1Color}">Amount</th>
+               <th style="color: ${team1Color}">Ratio</th>
+               <th style="color: ${team1Color}">Win Value</th>
+               <th style="color: ${team1Color}">Loss Value</th>
+               <th style="color: ${team1Color}">Final PnL</th>
+               <th style="color: ${team2Color}">${team2}</th>
+               <th style="color: ${team2Color}">Amount</th>
+               <th style="color: ${team2Color}">Ratio</th>
+               <th style="color: ${team2Color}">Win Value</th>
+               <th style="color: ${team2Color}">Loss Value</th>
+               <th style="color: ${team2Color}">Final PnL</th>
            </tr>
          </thead>
 
@@ -105,33 +103,39 @@
    <!-- Stop match Form -->
    <div id="stop-match-form-${match_id}" class="modal">
      <div class="modal-content row center">
-       <h4>Stop Match</h4>
-       <p>${team1} vs ${team2} ${date}</p>
+       <div class="card">
 
-       <form method="post" name="stop-match-${match_id}" id="stop-match-${match_id}">
-         <!-- <input name="match_id" value="${match_id}" hidden id="match_id" type="text" required> -->
-         <div class="col s12">
-           <p>
-            <label>
-              <input class="with-gap" name="win-match-${match_id}" value="${team1}" type="radio" />
-              <span>${team1}</span>
-            </label>
-          </p>
+         <form method="post" name="stop-match-${match_id}" id="stop-match-${match_id}">
+           <!-- <input name="match_id" value="${match_id}" hidden id="match_id" type="text" required> -->
+           <div class="card-content col s12" >
+             <h4 card-title>Stop Match</h4>
+             <p>${team1} vs ${team2} ${date}</p>
+             <div class="col s3 offset-s5 left-align" style="margin-top:25px;">
+               <p>
+                <label>
+                  <input class="with-gap" name="win-match-${match_id}" value="${team1}" type="radio" />
+                  <span>${team1}</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input class="with-gap" name="win-match-${match_id}" value="${team2}" type="radio" />
+                  <span>${team2}</span>
+                </label>
+              </p>
+
+            </div>
          </div>
 
-         <div class="col s12">
-          <p>
-            <label>
-              <input class="with-gap" name="win-match-${match_id}" value="${team2}" type="radio" />
-              <span>${team2}</span>
-            </label>
-          </p>
-        </div>
+           <div class="card-action col s12">
+             <div class="form-group center">
+               <input type="submit" id="${match_id}" onclick="stop_match(event)" class="waves-effect waves-green btn">
+             </div>
+           </div>
+         </form>
+       </div>
 
-         <div class="form-group center">
-           <input type="submit" id="${match_id}" onclick="stop_match(event)" class="waves-effect waves-green btn">
-         </div>
-       </form>
+
      </div>
    </div>
 
