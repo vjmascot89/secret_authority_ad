@@ -13,9 +13,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.trending.game.validator.IValidator;
+import com.trending.game.validator.Ivalidatable;
+
 @Entity
 @Table(name = "Satteri")
-public class Satteri {
+public class Satteri implements Ivalidatable{
 	private Integer id;
 	private BigDecimal balancePool;
 	private BigDecimal totalBalanceOnTeamOneWin;
@@ -129,6 +132,12 @@ public class Satteri {
 
 	public void setFinalAmount(BigDecimal finalAmount) {
 		this.finalAmount = finalAmount;
+	}
+
+	@Override
+	public String validate(IValidator validator) {
+		// TODO Auto-generated method stub
+		return validator.isValid(this);
 	}
 
 }
