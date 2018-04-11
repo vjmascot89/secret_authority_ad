@@ -23,6 +23,8 @@ import com.trending.game.model.Match;
 import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
 import com.trending.game.services.MatchAndSatteriServices;
+import com.trending.game.validator.IValidator;
+import com.trending.game.validator.ValidatorImpl;
 
 @RestController
 public class SattaMatchTeamsController {
@@ -30,13 +32,16 @@ public class SattaMatchTeamsController {
 	MatchAndSatteriServices matchAndSatteri;
 	@Autowired
 	AlgoToCalculateProfitLoss algoToCalculationProfitLoss;
+	
+	IValidator validator = new ValidatorImpl();
+	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/startmatch")
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
 		System.out.println("Add Match and Satteri");
+		validate(satteri);
 		
-		validation(satteri);
 		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
 		satteri.getCurrentMatch().getFirstTeam().setOrder(1);
 		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
@@ -61,10 +66,15 @@ public class SattaMatchTeamsController {
 
 	}
 
-	private void validation(Satteri satteri) {
-//		ValidationUtil.validate(satteri);
+
+	private void validate(Satteri satteri) {
+		String result ="";
+		satteri.validate(validator);
+		satteri.getCurrentMatch().getFirstTeam().validate(validator);
+		satteri.getCurrentMatch().getSecondTeam().validate(validator);
 		
 	}
+
 
 	@RequestMapping(method = RequestMethod.POST, value = "/sattalagao/{satteriId}")
 	@ResponseBody
