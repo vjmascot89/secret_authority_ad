@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,10 @@ import com.trending.game.model.Match;
 import com.trending.game.model.SattaPlayer;
 import com.trending.game.model.Satteri;
 import com.trending.game.services.MatchAndSatteriServices;
-import com.trending.game.validator.IValidator;
-import com.trending.game.validator.ValidatorImpl;
+import com.trending.game.validator.FunctionResult;
+import com.trending.game.validator.IValidation;
+import com.trending.game.validator.MatchValidationFactory;
+import com.trending.game.validator.SatteriValidatorFactory;
 
 @RestController
 public class SattaMatchTeamsController {
@@ -32,16 +36,25 @@ public class SattaMatchTeamsController {
 	MatchAndSatteriServices matchAndSatteri;
 	@Autowired
 	AlgoToCalculateProfitLoss algoToCalculationProfitLoss;
-	
-	IValidator validator = new ValidatorImpl();
+	private FunctionResult functionResult;
 	
 
 	@RequestMapping(method = RequestMethod.POST, value = "/startmatch")
 	@ResponseBody
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
 		System.out.println("Add Match and Satteri");
-		validate(satteri);
-		
+		try{
+		List<IValidation> validationList = new SatteriValidatorFactory(satteri.getName()).getValidationList();
+		validationList.addAll(new MatchValidationFactory(satteri.getCurrentMatch()).getValidationList());
+		functionResult = new FunctionResult("",HttpStatus.ACCEPTED);
+		for (IValidation iValidation : validationList) {
+			iValidation.isValid(functionResult);
+		}
+		if(functionResult.getStatus()==HttpStatus.BAD_REQUEST){
+			LinkedMultiValueMap<String, String> linkedMultiValueMap = new LinkedMultiValueMap<>();
+			linkedMultiValueMap.add("Bad values error", functionResult.getErrorMsg());
+			return new ResponseEntity<List<Satteri>>(linkedMultiValueMap,functionResult.getStatus());
+		}
 		satteri.getCurrentMatch().getFirstTeam().setStatus(GameResult.NOT_AVAILABLE);
 		satteri.getCurrentMatch().getFirstTeam().setOrder(1);
 		satteri.getCurrentMatch().getSecondTeam().setStatus(GameResult.NOT_AVAILABLE);
@@ -63,17 +76,15 @@ public class SattaMatchTeamsController {
 		satteri.setCurrentMatch(match);
 		arrayList.add(satteri);
 		return new ResponseEntity<List<Satteri>>(arrayList, HttpStatus.ACCEPTED);
+		}
+		catch (Exception e) {
+				return new ResponseEntity<List<Satteri>>(HttpStatus.BAD_REQUEST);
+		}
 
 	}
 
 
-	private void validate(Satteri satteri) {
-		String result ="";
-		satteri.validate(validator);
-		satteri.getCurrentMatch().getFirstTeam().validate(validator);
-		satteri.getCurrentMatch().getSecondTeam().validate(validator);
-		
-	}
+
 
 
 	@RequestMapping(method = RequestMethod.POST, value = "/sattalagao/{satteriId}")

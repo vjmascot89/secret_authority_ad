@@ -11,12 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.trending.game.validator.IValidator;
-import com.trending.game.validator.Ivalidatable;
 
 @Entity
 @Table(name = "SattaPlayer")
-public class SattaPlayer implements Ivalidatable{
+public class SattaPlayer{
 	private Integer id;
 	private String sattaPlayerName;
 	private BigDecimal currentPotTeamOne=BigDecimal.ZERO;
@@ -128,12 +126,6 @@ public class SattaPlayer implements Ivalidatable{
 
 	public void setFinalAmount(BigDecimal finalAmount) {
 		this.finalAmount = finalAmount;
-	}
-
-	@Override
-	public String validate(IValidator validator) {
-		// TODO Auto-generated method stub
-		return validator.isValid(this);
 	}
 
 }
