@@ -88,8 +88,8 @@ function render_match(matches){
     match["team2"] = data.currentMatch.secondTeam.teamName;
     match["ratio1"] = data.currentMatch.firstTeam.ratio;
     match["ratio2"] = data.currentMatch.secondTeam.ratio;
-    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamOneWin","totalBalanceOnTeamOneWin","totalBalanceOnTeamTwoLoss","balancePool") ;
-    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamTwoWin","totalBalanceOnTeamTwoWin","totalBalanceOnTeamOneLoss","balancePool") ;
+    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamOneWin","totalBalanceOnTeamTwoWin","totalBalanceOnTeamOneLoss","balancePool") ;
+    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamTwoWin","totalBalanceOnTeamOneWin","totalBalanceOnTeamTwoLoss","balancePool") ;
     render_matches.push(match);
   }
   // render_matches[render_matches.length - 1]["class"] = "active";
