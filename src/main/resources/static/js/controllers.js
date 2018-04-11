@@ -4,6 +4,8 @@ function register_template(name, markup){
 
 function match_add(){
     event.preventDefault();
+    var form_modal = $(event.target).closest('.modal');
+    M.Modal.getInstance(form_modal).close();
     if (is_match_valid()) {
         var formObj = getFormObj("start-match");
         var data = {};
@@ -266,7 +268,7 @@ function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTe
 
 var getTeamColor = (function () {
     var color_dictionary = {
-      "CSK" : "#FFFF3C",
+      "CSK" : "#0081E9",
       "DD" : "#C02826",
       "KXIP" : "#ED1D24",
       "KKR" : "#3A225D",
