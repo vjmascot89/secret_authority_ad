@@ -7,6 +7,14 @@
       autoClose : true,
       format : "yyyy-mm-dd"
     });
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth();
+    var day = today.getDate();
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    $("#date").attr("value", year + "-" + month + "-" + day);
     $('select').formSelect();
     var html_match_name = "";
     var html_match_content = "";

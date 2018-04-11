@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>IPL Bets</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,7 +12,7 @@
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img src="/images/IPL.png" style="height:65px;width:142px;" alt=""></a>
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img src="/images/IPL.png" style="height:65px;width:125px;" alt=""></a>
       <ul class="right hide-on-med-and-down">
         <li><button data-target="match-add-form" id="match-add" class="btn-large modal-trigger waves-effect waves-light orange">Add Match</button></li>
       </ul>
@@ -72,13 +72,13 @@
             <div class="form-group col s6 m6 center" c>
               <div class="col m6">
                 <label for="ratio1">Team 1 Ratio</label>
-                <input name="ratio1" type="text" class="form-control" id="ratio1" placeholder="eg. 2K10" required>
+                <input name="ratio1" type="text" class="form-control" id="ratio1" placeholder="eg. 2k10" required>
               </div>
             </div>
             <div class="form-group center col s6 m6">
               <div class="col m6">
                 <label for="ratio2">Team 2 Ratio</label>
-                <input name="ratio2" type="text" class="form-control" id="ratio2" placeholder="eg. 10L2" required>
+                <input name="ratio2" type="text" class="form-control" id="ratio2" placeholder="eg. 10l2" required>
               </div>
             </div>
             <div class="form-group">
@@ -151,18 +151,21 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      Made by <a class="orange-text text-lighten-3"
+      href="images/unknowns.jpg">Unknowns</a>
       </div>
     </div>
   </footer>
 
 
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/jquery-2.1.1.min.js"></script>
   <script th:src=@{js/materialize.js} src="/js/materialize.js"></script>
   <script th:src=@{js/init.js} src="/js/init.js"></script>
   <script th:src=@{js/controllers.js} src="/js/controllers.js"></script>
-  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="js/jquery.tmpl.min.js"></script>
+
+
 
 
   </body>
