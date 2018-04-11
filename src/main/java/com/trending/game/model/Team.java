@@ -7,9 +7,11 @@ import javax.persistence.Enumerated;
 
 import com.trending.game.enums.GameResult;
 import com.trending.game.enums.TeamsName;
+import com.trending.game.validator.IValidator;
+import com.trending.game.validator.Ivalidatable;
 
 @Embeddable
-public class Team {
+public class Team implements Ivalidatable{
 	private TeamsName teamName;
 	private GameResult status;
 	private String ratio;
@@ -60,5 +62,11 @@ public class Team {
 
 	public void setOrder(Integer order) {
 		this.order = order;
+	}
+
+	@Override
+	public String validate(IValidator validator) {
+		// TODO Auto-generated method stub
+		return validator.isValid(this);
 	}
 }
