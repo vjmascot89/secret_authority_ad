@@ -1,7 +1,3 @@
-function register_template(name, markup){
-  $.template( name, markup );
-}
-
 function match_add(){
     event.preventDefault();
     var form_modal = $(event.target).closest('.modal');
@@ -103,47 +99,8 @@ function delete_player(e) {
   });
 }
 
-function getFormObj(formId) {
-    var formObj = {};
-    var inputs = $('#'+formId).serializeArray();
-    $.each(inputs, function (i, input) {
-        formObj[input.name] = input.value;
-    });
-    return formObj;
-}
-
-function is_match_valid(){
-  return true;
-}
-function is_player_valid(){
-  return true;
-}
-
 function render_match(matches){
-  var render_matches = [];
-  for (match_index in matches){
-    var data = matches[match_index];
-    var match = {};
-    match["match_id"] = data.id;
-    match["balancePool"] = data.balancePool;
-    match["name"] = data.name;
-    fillRelevantValues(match,data,"totalBalanceOnTeamOneWin") ;
-    fillRelevantValues(match,data,"totalBalanceOnTeamOneLoss") ;
-    fillRelevantValues(match,data,"totalBalanceOnTeamTwoWin") ;
-    fillRelevantValues(match,data,"totalBalanceOnTeamTwoLoss") ;
-    match["date"] = data.currentMatch.date;
-    match["matchStatus"] = data.currentMatch.matchStatus;
-    match["team1"] = data.currentMatch.firstTeam.teamName;
-    match["team2"] = data.currentMatch.secondTeam.teamName;
-    match["ratio1"] = data.currentMatch.firstTeam.ratio;
-    match["ratio2"] = data.currentMatch.secondTeam.ratio;
-    match["team1Color"] = getTeamColor(data.currentMatch.firstTeam.teamName);
-    match["team2Color"] = getTeamColor(data.currentMatch.secondTeam.teamName);
-    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamOneWin","totalBalanceOnTeamTwoWin","totalBalanceOnTeamOneLoss","balancePool") ;
-    fillFinalAmountOnTeams(match,data,"finalAmountOnTeamTwoWin","totalBalanceOnTeamOneWin","totalBalanceOnTeamTwoLoss","balancePool") ;
-    render_matches.push(match);
-  }
-  // render_matches[render_matches.length - 1]["class"] = "active";
+  var render_matches = get_data_for_render_match(matches);
 
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
@@ -152,35 +109,12 @@ function render_match(matches){
     $('#player-add-form-match-'+render_matches[match_index].match_id).modal();
     $('#stop-match-form-'+render_matches[match_index].match_id).modal();
   }
-
 }
 
-function render_player(data){
-
-  var entries = [];
-  for (player_index in data.sattaPlayer){
-    var player = data.sattaPlayer[player_index];
-    var entry = {};
-    entry["sattaPlayerName"] = player.sattaPlayerName;
-    entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
-    fillRelevantValues(entry,player,"currentPotTeamOne") ;
-    fillRelevantValues(entry,player,"teamOneWinAmount") ;
-    fillRelevantValues(entry,player,"teamOneLossAmount") ;
-    entry["currentPotRatioOnTeamTwo"] = player.currentPotRatioOnTeamTwo;
-    fillRelevantValues(entry,player,"currentPotTeamTwo") ;
-    fillRelevantValues(entry,player,"teamTwoWinAmount") ;
-    fillRelevantValues(entry,player,"teamTwoLossAmount") ;
-    fillRelevantValues(entry,player,"finalAmount") ;
-    fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
-    fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
-    entry["player_id"] = player.id;
-    entry["matchStatus"] = data.currentMatch.matchStatus;
-    entry["team1Color"] = getTeamColor(data.currentMatch.firstTeam.teamName);
-    entry["team2Color"] = getTeamColor(data.currentMatch.secondTeam.teamName);
-    entries.push(entry);
-  }
-  return entries;
-
+function update_match_details(data){
+  $("#match-details-"+ data.id).empty();
+  var render_matches = get_data_for_render_match([data]);
+  $.tmpl( "match_details", render_matches[0] ).appendTo("#match-details-"+ data.id );
 }
 
 function add_player_to_list(data){
@@ -189,10 +123,14 @@ function add_player_to_list(data){
 
 function render_all_players(data){
   $( "#players_for_match" + data.id ).empty();
-  $.tmpl( "players", render_player(data) ).appendTo( "#players_for_match"+data.id );
+  update_match_details(data);
+
+  var players = render_player(data);
+  $.tmpl( "players", players ).appendTo( "#players_for_match"+data.id );
 }
 
 function delete_player_from_list(data){
+  update_match_details(data);
   $( "#players_for_match" + data.id ).find(data.sattaPlayer[0].id).closest("tr").remove();
 }
 
@@ -249,33 +187,3 @@ function get_active_matches(){
   // });
   location.reload(true);
 }
-function fillRelevantValues(matchList,data,attribute){
-  if(data[attribute]!=0){
-    matchList[attribute]=data[attribute];
-  }else{
-    matchList[attribute]="";
-  }
-}
-
-function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss,balancePool){
-    matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss]+data[balancePool];
-
-}
-function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss){
-    matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
-
-}
-
-var getTeamColor = (function () {
-    var color_dictionary = {
-      "CSK" : "#0081E9",
-      "DD" : "#C02826",
-      "KXIP" : "#ED1D24",
-      "KKR" : "#3A225D",
-      "MI" : "#005FA2",
-      "RCB" : "#C9920E",
-      "RR" : "#254AA5",
-      "SRH" : "#352722",
-    };
-    return function (teamName) {return color_dictionary[teamName];}
-})();

@@ -1,36 +1,40 @@
 <div id="match${match_id}" class="row">
-  <div class="col s12" style="margin:25px;">
-    <div class="col s3 right-align match-keys">
-     <p><span>Name :</span></p>
-      <p><span>Balance :</span></p>
-      <p><span>Final Amount on ${team1} Win :</span></p>
-      <p><span>Final Amount on ${team2} Win :</span></p>
-      <p><span>Date :</span></p>
-      <p><span>Match status :</span></p>
-    </div>
-    <div class="col s4 left-align">
-     <p><span>${name}</span></p>
-      <p><span>${balancePool}</span></p>
-      <p><span>${finalAmountOnTeamOneWin}</span></p>
-      <p><span>${finalAmountOnTeamTwoWin}</span></p>
-      <p><span>${date}</span></p>
-      <p><span>${matchStatus}</span></p>
-    </div>
-    <div class="col s3 left-align row">
 
-      <div class="col s12">
-        <button data-target="player-add-form-match-${match_id}" id="player-add"
-         class="btn waves-effect waves-light modal-trigger">Add Player <i class="material-icons right">add</i></button>
+  <!-- Container for match details -->
+
+    <div class="col s12" style="margin:25px;">
+      <div class="col s3 right-align match-keys">
+       <p><span>Name :</span></p>
+        <p><span>Balance :</span></p>
+        <p><span>Final Amount on ${team1} Win :</span></p>
+        <p><span>Final Amount on ${team2} Win :</span></p>
+        <p><span>Date :</span></p>
+        <p><span>Match status :</span></p>
       </div>
-
-      <div class="col s12" style="margin-top:25px;">
-        <button data-target="stop-match-form-${match_id}" id="player-add"
-         class="btn waves-effect waves-light modal-trigger">Stop Match <i class="material-icons right">stop</i></button>
+      <div class="col s4 left-align">
+       <p><span>${name}</span></p>
+        <p><span>${balancePool}</span></p>
+        <div id="match-details-${match_id}">
+          <p><span>${finalAmountOnTeamOneWin}</span></p>
+          <p><span>${finalAmountOnTeamTwoWin}</span></p>
+        </div>
+        <p><span>${date}</span></p>
+        <p><span>${matchStatus}</span></p>
       </div>
+      <div class="col s3 left-align row">
+        {{if matchStatus == "RUNNING"}}
+          <div class="col s12">
+            <button data-target="player-add-form-match-${match_id}" id="player-add"
+             class="btn waves-effect waves-light modal-trigger">Add Player <i class="material-icons right">add</i></button>
+          </div>
 
+          <div class="col s12" style="margin-top:25px;">
+            <button data-target="stop-match-form-${match_id}" id="player-add"
+             class="btn waves-effect waves-light modal-trigger">Stop Match <i class="material-icons right">stop</i></button>
+          </div>
+        {{/if}}
+      </div>
     </div>
-  </div>
-
 
    <div class="card-action">
      <table class="highlight centered responsive-table">
