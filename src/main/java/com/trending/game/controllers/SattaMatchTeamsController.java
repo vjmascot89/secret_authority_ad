@@ -43,7 +43,7 @@ public class SattaMatchTeamsController {
 	public ResponseEntity<List<Satteri>> addMatchAndSatteri(@RequestBody Satteri satteri) {
 		System.out.println("Add Match and Satteri");
 		try{
-		List<IValidation> validationList = new SatteriValidatorFactory(satteri.getName()).getValidationList();
+		List<IValidation> validationList = new ArrayList<IValidation>(new SatteriValidatorFactory(satteri.getName()).getValidationList());
 		validationList.addAll(new MatchValidationFactory(satteri.getCurrentMatch()).getValidationList());
 		functionResult = new FunctionResult("",HttpStatus.ACCEPTED);
 		for (IValidation iValidation : validationList) {
