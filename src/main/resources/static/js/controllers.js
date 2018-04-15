@@ -42,6 +42,7 @@ function match_add(){
 function player_add(e){
     event.preventDefault();
     var matchId = e.target.id;
+
     if (is_player_valid()) {
         var formObj = getFormObj("player-add-"+matchId);
         $.ajax({
@@ -101,7 +102,6 @@ function delete_player(e) {
 
 function render_match(matches){
   var render_matches = get_data_for_render_match(matches);
-
   $.tmpl( "match_name", render_matches ).appendTo( "#match_name" );
   $.tmpl( "match_content", render_matches ).appendTo( "#match_content" );
   for (match_index in render_matches) {
@@ -122,11 +122,13 @@ function add_player_to_list(data){
 }
 
 function render_all_players(data){
-  $( "#players_for_match" + data.id ).empty();
+  var matchId = data.id;
+  $( "#players_for_match" + matchId ).empty();
   update_match_details(data);
 
   var players = render_player(data);
-  $.tmpl( "players", players ).appendTo( "#players_for_match"+data.id );
+  $.tmpl( "players", players ).appendTo( "#players_for_match"+matchId );
+  $("#player-add-"+matchId)[0].reset();
 }
 
 function delete_player_from_list(data){
