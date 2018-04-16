@@ -85,8 +85,10 @@ function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTe
 
 }
 function fillFinalAmountOnTeams(matchList,data,finalAmountOnWin,totalBalanceOnTeamOneWin,totalBalanceOnTeamOtherLoss){
-    matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
-
+    if (matchList[finalAmountOnWin] != undefined) {
+      matchList[finalAmountOnWin]= +matchList[finalAmountOnWin] + +data[totalBalanceOnTeamOneWin] + +data[totalBalanceOnTeamOtherLoss];
+    }
+      matchList[finalAmountOnWin]=data[totalBalanceOnTeamOneWin]+data[totalBalanceOnTeamOtherLoss];
 }
 
 var getTeamColor = (function () {
@@ -102,3 +104,52 @@ var getTeamColor = (function () {
     };
     return function (teamName) {return color_dictionary[teamName];}
 })();
+
+function replace_match_from_list(match){
+  var index = matches_list.findIndex(x => x.id==match.id) ;
+  matches_list[index >= 0 ? index : arr.length] = match;
+}
+
+function get_consolidated_players(data){
+  var entries = [];
+  for (player_index in data.sattaPlayer){
+    var player = data.sattaPlayer[player_index];
+    var entry = entries.find(x => x.sattaPlayerName === player.sattaPlayerName);
+    if(entry ==undefined){
+      entry = {};
+      entry["sattaPlayerName"] = player.sattaPlayerName;
+      entry["currentPotRatioOnTeamOne"] = player.currentPotRatioOnTeamOne;
+      fillRelevantValues(entry,player,"currentPotTeamOne") ;
+      fillRelevantValues(entry,player,"teamOneWinAmount") ;
+      fillRelevantValues(entry,player,"teamOneLossAmount") ;
+      entry["currentPotRatioOnTeamTwo"] = player.currentPotRatioOnTeamTwo;
+      fillRelevantValues(entry,player,"currentPotTeamTwo") ;
+      fillRelevantValues(entry,player,"teamTwoWinAmount") ;
+      fillRelevantValues(entry,player,"teamTwoLossAmount") ;
+      fillRelevantValues(entry,player,"finalAmount") ;
+      fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
+      fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
+      entry["player_id"] = player.id;
+      entry["matchStatus"] = data.currentMatch.matchStatus;
+      entry["team1Color"] = getTeamColor(data.currentMatch.firstTeam.teamName);
+      entry["team2Color"] = getTeamColor(data.currentMatch.secondTeam.teamName);
+      entries.push(entry);
+    }
+    else{
+      entry["currentPotTeamOne"] = +entry["currentPotTeamOne"] + +player.currentPotTeamOne;
+      entry["teamOneWinAmount"] = +entry["teamOneWinAmount"] + +player.teamOneWinAmount;
+      entry["teamOneLossAmount"] = +entry["teamOneLossAmount"] + +player.teamOneLossAmount;
+      entry["currentPotTeamTwo"] = +entry["currentPotTeamTwo"] + +player.currentPotTeamTwo;
+      entry["teamTwoWinAmount"] = +entry["teamTwoWinAmount"] + +player.teamTwoWinAmount;
+      entry["teamTwoLossAmount"] = +entry["teamTwoLossAmount"] + +player.teamTwoLossAmount;
+      entry["finalAmount"] = +entry["finalAmount"] + +player.finalAmount;
+      fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamOneWin","teamOneWinAmount","teamTwoLossAmount") ;
+      fillFinalAmountOnTeams(entry,player,"finalAmountOnTeamTwoWin","teamTwoWinAmount","teamOneLossAmount") ;
+    }
+
+  }
+  return entries;
+}
+
+var matches_list = [];
+var player_view = "Individual";

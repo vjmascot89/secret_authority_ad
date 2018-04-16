@@ -28,6 +28,7 @@ function match_add(){
           contentType:"application/json; charset=utf-8",
           success : function(match, status){
             console.log(status);
+            $.merge(matches_list,match);
             render_match(match);
           },
           error : function ( jqXHR, textStatus,errorThrown) {
@@ -53,6 +54,7 @@ function player_add(e){
           contentType:"application/json; charset=utf-8",
           success : function(match, status){
             console.log(status);
+            replace_match_from_list(match);
             render_all_players(match);
           },
           error : function ( jqXHR, textStatus,errorThrown) {
@@ -90,6 +92,7 @@ function delete_player(e) {
     type : "DELETE",
     success : function(match, status){
       console.log(status);
+      replace_match_from_list(match);
       render_all_players(match);
     },
     error : function ( jqXHR, textStatus,errorThrown) {
@@ -125,9 +128,13 @@ function render_all_players(data){
   var matchId = data.id;
   $( "#players_for_match" + matchId ).empty();
   update_match_details(data);
-
-  var players = render_player(data);
-  $.tmpl( "players", players ).appendTo( "#players_for_match"+matchId );
+  if(player_view==="Consolidated"){
+    render_consolidated_players();
+  }
+  else {
+    var players = render_player(data);
+    $.tmpl( "players", players ).appendTo( "#players_for_match"+matchId );
+  }
   $("#player-add-"+matchId)[0].reset();
 }
 
@@ -157,6 +164,7 @@ function get_passive_match(e){
     url : "/passivematch/" + matchId,
     type : "GET",
     success : function(matches, status){
+      $.merge(matches_list,matches);
       console.log(status);
       $( "#match_name" ).empty();
       $( "#match_content" ).empty();
@@ -189,3 +197,50 @@ function get_active_matches(){
   // });
   location.reload(true);
 }
+
+function render_consolidated_players(){
+  for (index in matches_list){
+    var match = matches_list[index];
+    var consolidated_players = get_consolidated_players(match);
+    var matchId = match.id;
+    $( "#players_for_match" + matchId ).empty();
+    $.tmpl( "consolidated_players", consolidated_players ).appendTo( "#players_for_match"+matchId );
+  }
+}
+
+function render_individual_players(){
+  for (index in matches_list){
+    var match = matches_list[index];
+    var individual_players = render_player(match);
+    var matchId = match.id;
+    $( "#players_for_match" + matchId ).empty();
+    $.tmpl( "players", individual_players ).appendTo( "#players_for_match"+matchId );
+  }
+}
+
+function toggle_view(e){
+  var element = e.target;
+  var view = e.target.value;
+  switch (view) {
+    case "Individual":
+      element.value = "Consolidated";
+      render_consolidated_players();
+      break;
+    case "Consolidated":
+      element.value = "Individual";
+      render_individual_players();
+      break;
+    default:
+  }
+}
+
+$("#view").change(function() {
+  if($(this).is(":checked")) {
+    player_view = "Consolidated";
+    render_consolidated_players();
+  }
+  else {
+    player_view = "Individual";
+    render_individual_players();
+  }
+});
